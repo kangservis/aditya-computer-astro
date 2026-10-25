@@ -1,0 +1,73 @@
+---
+// File: src/layouts/Layout.astro
+import { ClientRouter } from 'astro:transitions';
+import '../styles/globals.css';
+import Header from '../components/Header.astro';
+import BottomNav from '../components/BottomNav.astro';
+import Modals from '../components/Modals.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { 
+  title, 
+  description = "Aditya Computer (Aditya Komputer) adalah pusat penjualan laptop, PC, aksesoris, dan servis komputer terpercaya di Kediri. IT Solution Partner Anda." 
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>{title}</title>
+    
+    <!-- SEO Meta dari index.html lama -->
+    <meta name="description" content={description} />
+    <meta name="keywords" content="aditya computer, adityacomputer, aditya komputer, adtiyakomputer, aditya computer wates, toko komputer kediri, beli laptop wates, servis laptop kediri, rakit pc kediri" />
+    <meta name="author" content="Aditya Computer" />
+    <meta name="google-site-verification" content="UbgGpyqxlqZ3O-4V0PZ1Dg_FMdxW8WNc6fiYquP5SUE" />
+
+    <link rel="icon" type="image/jpeg" href="/img/Fix.jpg" />
+    <link rel="apple-touch-icon" href="/img/Fix.jpg" />
+
+    <!-- Preconnect & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@500;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+    
+    <!-- RemixIcon CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet" />
+
+    <ClientRouter />
+  </head>
+  <body transition:animate="none" class="font-sans bg-slate-50 text-slate-900 min-h-screen flex flex-col relative select-none md:select-text">
+    
+    <!-- Memanggil komponen Header -->
+    <Header />
+    
+    <!-- Memanggil komponen Modals -->    
+    <Modals />
+
+    <!-- Konten dari index.astro, artikel.astro, dll akan masuk ke dalam slot ini -->
+    <slot />
+
+    <!-- Footer Desktop bawaan -->
+    <footer class="hidden md:block bg-slate-900 text-white border-t border-slate-800 py-8 z-10 mt-auto">
+      <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500 space-y-2">
+        <p>© 2026 Aditya Computer Kediri. Hak Cipta Dilindungi Undang-Undang.</p>
+        <p class="text-slate-600">Design By TATANG.</p>
+      </div>
+    </footer>
+
+    <!-- Memanggil komponen Navigasi Mobile -->
+    <BottomNav />
+
+    <script>
+      import "../lib/store.js";
+    </script>
+
+  </body>
+</html>

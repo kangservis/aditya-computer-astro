@@ -1,0 +1,101 @@
+@import "tailwindcss";
+
+/* Custom Global Utility Styles */
+
+body {
+    font-family: 'Inter', sans-serif;
+    -webkit-tap-highlight-color: transparent; /* Menghilangkan efek kedip biru saat tombol di-tap di HP */
+    min-height: 100vh;
+    min-height: 100dvh; /* Menggunakan Dynamic Viewport Height agar layout stabil saat toolbar HP menyusut */
+}
+
+/* WATERMARK LOGO LATAR BELAKANG (Optimasi Akselerasi GPU 60fps) */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Menggunakan width/height 100% agar tidak terpengaruh resize toolbar browser */
+    background-image: url('img/Fix.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: min(800px, 80vw); 
+    opacity: 0.06; 
+    z-index: -10; 
+    pointer-events: none; 
+    
+    /* MEMAKSA BROWSER MENGGUNAKAN GPU CHIP UNTUK RENDER (ANTI-LAG) */
+    transform: translate3d(0, 0, 0); 
+    will-change: transform; 
+}
+
+.font-display {
+    font-family: 'Outfit', sans-serif;
+}
+
+/* Bento Card Style */
+.bento-card {
+    background: rgba(255, 255, 255, 0.96); 
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 1rem;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .bento-card {
+        border-radius: 1.25rem;
+    }
+    .bento-card:hover {
+        border-color: #dc2626;
+        transform: translateY(-2px);
+        box-shadow: 0 10px 20px -3px rgba(220, 38, 38, 0.08);
+    }
+}
+
+.accent-gradient {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+/* Category Filter Active Button */
+.category-btn {
+    background-color: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+}
+
+.category-btn.active {
+    background-color: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+    box-shadow: 0 4px 10px rgba(220, 38, 38, 0.15);
+}
+
+/* Menyembunyikan scrollbar bawaan pada kategori geser di mobile */
+.scrollbar-none::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Custom Scrollbar untuk Desktop */
+@media (min-width: 1024px) {
+    ::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+        background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+    }
+}

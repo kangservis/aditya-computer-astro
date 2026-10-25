@@ -1,0 +1,54 @@
+    ---
+    // File: src/pages/lokasi.astro
+    import Layout from "../layouts/Layout.astro";
+    ---
+
+    <Layout title="Lokasi Toko - Aditya Computer">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-24 md:pb-8 z-10">
+        <section class="space-y-6 md:space-y-8">
+        <div class="text-center max-w-xl mx-auto space-y-1">
+            <span class="text-red-600 font-semibold text-xs uppercase tracking-widest">Kunjungi Toko</span>
+            <h2 class="font-display font-medium text-xl sm:text-3xl text-slate-900">Lokasi Fisik Toko</h2>
+        </div>
+        
+        <div class="max-w-sm mx-auto bg-white/95 backdrop-blur-xs p-6 md:p-8 rounded-3xl border border-slate-100 shadow-sm space-y-6 text-center">
+            <div class="w-16 h-16 bg-red-50 rounded-2xl flex items-center justify-center text-red-600 text-3xl mx-auto border border-red-100">
+                <i class="ri-map-pin-2-fill"></i>
+            </div>
+            <div>
+                <h3 class="font-display font-bold text-xl text-slate-900">Aditya Computer</h3>
+                <p class="text-[13px] text-slate-500 leading-relaxed mt-2 px-2">
+                Jl. Raya Tawang No. 35 Kecamatan Wates Kabupaten Kediri, Jawa Timur.
+                </p>
+            </div>
+            
+            <div class="h-[1px] bg-slate-100"></div>
+            
+            <div class="space-y-2 text-[13px] text-slate-600">
+                <p class="flex justify-between items-center px-2">
+                <span>Senin - Sabtu</span>
+                <span class="font-bold text-slate-900">09:00 - 20:00</span>
+                </p>
+                <p class="flex justify-between items-center px-2 text-red-500">
+                <span>Minggu</span> 
+                <span class="font-bold">Tutup</span>
+                </p>
+            </div>
+            
+            <a href="https://maps.app.goo.gl/9hwJFWbcrn7YMsDT7" target="_blank" class="block w-full py-3.5 rounded-xl bg-red-600 hover:bg-red-700 text-white font-bold text-sm text-center transition-all shadow-md shadow-red-500/20 cursor-pointer">
+                <i class="ri-direction-line mr-1"></i> Buka di Google Maps
+            </a>
+        </div>
+        
+        <div class="rounded-2xl overflow-hidden h-[250px] md:h-[300px] border border-slate-200 shadow-xs bg-white">
+            <iframe
+            src="https://maps.google.com/maps?q=Aditya%20Computer%20Jl.%20Raya%20Tawang%20No.%2035%20Wates%20Kediri&t=&z=16&ie=UTF8&iwloc=&output=embed"
+            class="w-full h-full border-0"
+            allowfullscreen=""
+            loading="lazy"
+            sandbox="allow-scripts allow-same-origin"
+            ></iframe>
+        </div>
+        </section>
+    </main>
+    </Layout>

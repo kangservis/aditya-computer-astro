@@ -1,0 +1,22 @@
+---
+// File: src/components/BottomNav.astro
+const pathname = Astro.url.pathname;
+---
+<div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 h-16 flex items-center justify-around z-40 px-2 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] [transform:translate3d(0,0,0)] [will-change:transform]">
+  <a href="/" class={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${pathname === '/' ? 'text-red-600 font-bold' : 'text-slate-500'}`}>
+    <i class="ri-store-2-line text-xl"></i>
+    <span class="text-[10px] mt-0.5">Katalog</span>
+  </a>
+  <a href="/artikel" class={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${pathname === '/artikel' ? 'text-red-600 font-bold' : 'text-slate-500'}`}>
+    <i class="ri-article-line text-xl"></i>
+    <span class="text-[10px] mt-0.5">Artikel</span>
+  </a>
+  <a href="/lokasi" class={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${pathname === '/lokasi' ? 'text-red-600 font-bold' : 'text-slate-500'}`}>
+    <i class="ri-map-pin-line text-xl"></i>
+    <span class="text-[10px] mt-0.5">Lokasi</span>
+  </a>
+  <a href="/kontak" class={`flex flex-col items-center justify-center flex-1 py-1 transition-colors ${pathname === '/kontak' ? 'text-red-600 font-bold' : 'text-slate-500'}`}>
+    <i class="ri-contacts-line text-xl"></i>
+    <span class="text-[10px] mt-0.5">Kontak</span>
+  </a>
+</div>

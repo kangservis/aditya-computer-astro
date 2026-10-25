@@ -1,0 +1,120 @@
+    ---
+    // File: src/pages/kontak.astro
+    import Layout from "../layouts/Layout.astro";
+    ---
+
+    <Layout title="Hubungi Kami - Aditya Computer">
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-24 md:pb-8 z-10">
+        <section class="space-y-6 md:space-y-8">
+        <div class="text-center max-w-xl mx-auto space-y-1">
+            <span class="text-red-600 font-semibold text-xs uppercase tracking-widest">Komunikasi Langsung</span>
+            <h2 class="font-display font-medium text-xl sm:text-3xl text-slate-900">Kontak Kami</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto items-stretch">
+            <!-- CARD INFORMASI KONTAK -->
+            <div class="bento-card p-6 md:p-8 space-y-6 bg-white/95 backdrop-blur-xs flex flex-col justify-center">
+            <h3 class="font-display font-bold text-slate-800 text-base md:text-lg">Informasi Pembayaran & Kontak</h3>
+            <div class="space-y-4 w-full">
+                <div onclick="window.copyText('081297933936', 'Nomor WhatsApp berhasil disalin!')" class="flex items-center gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:border-emerald-300 hover:bg-emerald-50 hover:shadow-sm cursor-pointer transition-all group">
+                <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl shrink-0 transition-transform group-hover:scale-110"><i class="ri-whatsapp-line"></i></div>
+                <div class="flex-grow">
+                    <p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">WhatsApp Admin</p>
+                    <p class="font-bold text-slate-800 text-sm md:text-base group-hover:text-emerald-700 transition-colors">081297933936</p>
+                </div>
+                <i class="ri-file-copy-line text-slate-300 group-hover:text-emerald-600 text-lg transition-colors"></i>
+                </div>
+
+                <div onclick="window.copyText('320801046217539', 'Nomor Rekening BRI berhasil disalin!')" class="flex items-center gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:border-blue-300 hover:bg-blue-50 hover:shadow-sm cursor-pointer transition-all group">
+                <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl shrink-0 transition-transform group-hover:scale-110"><i class="ri-bank-card-line"></i></div>
+                <div class="flex-grow">
+                    <p class="text-[10px] md:text-xs text-slate-400 font-bold uppercase tracking-wider mb-0.5">BRI (ADITYA ACHMAD ARFIYAN)</p>
+                    <p class="font-bold text-slate-800 text-sm md:text-base group-hover:text-blue-700 transition-colors">320801046217539</p>
+                </div>
+                <i class="ri-file-copy-line text-slate-300 group-hover:text-blue-600 text-lg transition-colors"></i>
+                </div>
+            </div>
+            </div>
+            
+            <!-- CARD FORM KONSULTASI -->
+            <div class="bento-card p-6 md:p-8 space-y-6 bg-white/95 backdrop-blur-xs !overflow-visible flex flex-col justify-center">
+            <h3 class="font-display font-bold text-slate-800 text-base md:text-lg">Form Konsultasi Cepat</h3>
+            <div class="space-y-4">
+                <input type="text" id="wa-name" placeholder="Nama Lengkap Anda" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all" />
+                
+                <div class="relative w-full z-40" id="wa-subject-container">
+                <button type="button" onclick="window.toggleWaDropdown()" id="wa-subject-btn" class="w-full flex items-center justify-between border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white hover:bg-slate-50 focus:ring-2 focus:ring-red-500/20 transition-all cursor-pointer outline-none">
+                    <span id="wa-subject-label" class="text-slate-600 truncate">Tanya stok laptop / aksesoris</span>
+                    <i class="ri-arrow-down-s-line text-slate-400 shrink-0"></i>
+                </button>
+                
+                <div id="wa-subject-menu" class="absolute left-0 right-0 top-full mt-2 bento-card p-2 bg-white shadow-xl transition-all duration-300 translate-y-2 opacity-0 pointer-events-none hidden">
+                    <ul class="text-[13px] text-slate-700 font-medium space-y-1">
+                    <li onclick="window.selectWaSubject('Tanya stok laptop / aksesoris')" class="px-3 py-2.5 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors">Tanya stok laptop / aksesoris</li>
+                    <li onclick="window.selectWaSubject('Konsultasi perbaikan laptop rusak')" class="px-3 py-2.5 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors">Konsultasi perbaikan laptop rusak</li>
+                    <li onclick="window.selectWaSubject('Pengadaan PC Kantor / Sekolah')" class="px-3 py-2.5 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors">Pengadaan PC Kantor / Sekolah</li>
+                    </ul>
+                </div>
+                </div>
+                <input type="hidden" id="wa-subject" value="Tanya stok laptop / aksesoris">
+
+                <button onclick="window.sendWA()" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md shadow-emerald-500/20">
+                <i class="ri-whatsapp-fill text-xl"></i> Kirim ke WhatsApp
+                </button>
+            </div>
+            </div>
+        </div>
+        </section>
+    </main>
+
+    <script>
+        // @ts-nocheck
+        document.addEventListener('astro:page-load', () => {
+            window.copyText = (textToCopy, successMsg) => {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    window.showNotification(successMsg, "success");
+                }).catch(() => {
+                    window.showNotification("Gagal menyalin teks.", "error");
+                });
+            };
+
+            window.toggleWaDropdown = () => {
+                const menu = document.getElementById("wa-subject-menu");
+                if(!menu) return;
+                const isOpen = !menu.classList.contains("hidden");
+                if (isOpen) {
+                    menu.classList.add("translate-y-2", "opacity-0");
+                    setTimeout(() => menu.classList.add("hidden", "pointer-events-none"), 300);
+                } else {
+                    menu.classList.remove("hidden");
+                    setTimeout(() => menu.classList.remove("pointer-events-none", "translate-y-2", "opacity-0"), 10);
+                }
+            };
+
+            window.selectWaSubject = (value) => {
+                document.getElementById("wa-subject").value = value;
+                const label = document.getElementById("wa-subject-label");
+                label.innerText = value;
+                label.classList.add("text-slate-900", "font-bold");
+                window.toggleWaDropdown();
+            };
+
+            window.sendWA = () => {
+                const nama = document.getElementById("wa-name").value.trim() || "Pelanggan";
+                const sub = document.getElementById("wa-subject").value;
+                const text = `Halo Aditya Computer, saya ${nama}. Ingin bertanya mengenai: "${sub}"`;
+                window.open(`https://wa.me/6281297933936?text=${encodeURIComponent(text)}`, "_blank");
+            };
+
+            window.addEventListener("click", function (e) {
+                const waContainer = document.getElementById("wa-subject-container");
+                if (waContainer && !waContainer.contains(e.target)) {
+                    const waMenu = document.getElementById("wa-subject-menu");
+                    if (waMenu && !waMenu.classList.contains("hidden")) {
+                        window.toggleWaDropdown();
+                    }
+                }
+            });
+        });
+    </script>
+    </Layout>
