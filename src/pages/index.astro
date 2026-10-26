@@ -164,11 +164,26 @@ import Layout from "../layouts/Layout.astro";
   window.currentCondition = "Semua";
   window.searchTimeout = null;
 
+  // File: src/pages/index.astro (Lokasi: Blok <script>, sekitar baris 113)
+
   document.addEventListener("astro:page-load", async () => {
     const grid = document.getElementById("product-grid");
     if (!grid) return;
 
-    ALL_PRODUCTS = await fetchProductsFromFirebase();
+    // Cek apakah data sudah ada di "buku catatan" sementara browser
+    const cachedData = sessionStorage.getItem("aditya_products_cache");
+
+    if (cachedData) {
+      ALL_PRODUCTS = JSON.parse(cachedData);
+    } else {
+      // Jika kosong, baru ambil dari Firebase dan simpan ke catatan
+      ALL_PRODUCTS = await fetchProductsFromFirebase();
+      sessionStorage.setItem(
+        "aditya_products_cache",
+        JSON.stringify(ALL_PRODUCTS),
+      );
+    }
+
     window.PRODUCTS_DATA = ALL_PRODUCTS;
 
     ALL_PRODUCTS.sort((a, b) => {
@@ -194,27 +209,17 @@ import Layout from "../layouts/Layout.astro";
       const imagesArray =
         prod.images && prod.images.length > 0 ? prod.images : [prod.image];
 
-      let sliderHtml = `<div id="slider-${prod.id}" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none w-full h-full relative scroll-smooth items-center">`;
-      imagesArray.forEach((imgUrl, idx) => {
-        const pxImg = getProxyUrl(imgUrl);
-        sliderHtml += `
-           <div class="w-full h-full shrink-0 snap-center snap-always flex items-center justify-center p-2 md:p-4 relative">
-             <img src="${pxImg}" alt="${prod.name} - Foto ${idx + 1}"
-                  onclick="window.openLightbox('${prod.id}', ${idx})" 
-                  loading="lazy" decoding="async"
-                  class="max-h-full max-w-full object-contain transition-transform duration-300 cursor-zoom-in group-hover:scale-105" 
-                  title="Klik untuk memperbesar">
-           </div>`;
-      });
-      sliderHtml += `</div>`;
+      // Hanya ambil gambar pertama untuk katalog
+      const firstImg = getProxyUrl(imagesArray[0], 400);
 
-      let navButtonsHtml = "";
-      if (imagesArray.length > 1) {
-        navButtonsHtml = `
-            <button onclick="window.scrollSlider(event, '${prod.id}', -1)" class="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-7 md:h-7 bg-white/90 hover:bg-white rounded-full hidden md:flex items-center justify-center shadow-md text-slate-600 hover:text-red-600 transition-all duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-left-s-line text-sm md:text-base"></i></button>
-            <button onclick="window.scrollSlider(event, '${prod.id}', 1)" class="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-7 md:h-7 bg-white/90 hover:bg-white rounded-full hidden md:flex items-center justify-center shadow-md text-slate-600 hover:text-red-600 transition-all duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-right-s-line text-sm md:text-base"></i></button>
-            <div class="absolute bottom-1.5 right-1.5 bg-black/40 text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-sm z-20 pointer-events-none flex items-center gap-1 shadow-sm"><i class="ri-image-2-line"></i> ${imagesArray.length}</div>`;
-      }
+      const sliderHtml = `
+         <div class="w-full h-full flex items-center justify-center p-3 relative">
+           <img src="${firstImg}" alt="${prod.name}"
+                loading="lazy" decoding="async"
+                class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" >
+         </div>`;
+
+      const navButtonsHtml = "";
 
       // 1. Modifikasi: Spek sekarang dibungkus, jika kosong maka var ini murni string kosong
       const specBadgesHtml =

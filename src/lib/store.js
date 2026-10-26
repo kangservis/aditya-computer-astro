@@ -30,7 +30,7 @@ window.showNotification = (message, type = "success") => {
 
   if (type === "warning" || type === "error") {
     iconClass = "ri-error-warning-fill text-red-500";
-    borderClass = "border-red-150";
+    borderClass = "border-red-200";
   }
 
   toast.className = `bento-card p-4 flex items-center gap-3 bg-white shadow-xl border pointer-events-auto w-full transition-all duration-300 translate-y-2 opacity-0 ${borderClass}`;
@@ -113,6 +113,7 @@ window.updateCartCounter = () => {
       counter.classList.add("inline-flex");
     } else {
       counter.classList.add("hidden");
+      counter.classList.remove("inline-flex");
     }
   }
 };
@@ -350,3 +351,8 @@ window.updateCartCounter = () => {
     }
   }
 };
+
+// Memaksa angka keranjang muncul lagi setiap kali pengunjung pindah halaman
+document.addEventListener("astro:page-load", () => {
+  window.updateCartCounter();
+});
