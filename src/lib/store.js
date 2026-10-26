@@ -215,11 +215,14 @@ window.openProductDetail = (prodId) => {
   });
   sliderHtml += `</div>`;
 
+  // Cari kode let navHtml = ''; di dalam window.openProductDetail dan timpa menjadi:
   let navHtml = '';
   if (imagesArray.length > 1) {
-     navHtml = `<button onclick="scrollSlider(event, 'detail-${prod.id}', -1)" class="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 rounded-full hidden sm:flex items-center justify-center shadow-sm cursor-pointer z-20"><i class="ri-arrow-left-s-line"></i></button>
-                <button onclick="scrollSlider(event, 'detail-${prod.id}', 1)" class="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 rounded-full hidden sm:flex items-center justify-center shadow-sm cursor-pointer z-20"><i class="ri-arrow-right-s-line"></i></button>
-                <div class="absolute bottom-1 right-1 bg-black/40 text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-sm z-20"><i class="ri-image-2-line"></i> ${imagesArray.length}</div>`;
+     navHtml = `
+        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', -1)" class="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-all duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-left-s-line"></i></button>
+        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', 1)" class="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-all duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-right-s-line"></i></button>
+        <div class="absolute bottom-1 right-1 bg-black/40 text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-sm z-20 pointer-events-none flex items-center gap-1"><i class="ri-image-2-line"></i> ${imagesArray.length}</div>
+     `;
   }
   
   document.getElementById("detail-slider-container").innerHTML = sliderHtml + navHtml;

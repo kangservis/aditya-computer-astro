@@ -2,15 +2,15 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-// Konfigurasi Firebase dari file lama
+// Mengambil kunci rahasia dari file .env
 const firebaseConfig = {
-    apiKey: "AIzaSyAebVJbgflOX2uHY8epkSoi6eIVcFkpsq4",
-    authDomain: "aditya-computer-db.firebaseapp.com",
-    projectId: "aditya-computer-db",
-    storageBucket: "aditya-computer-db.firebasestorage.app",
-    messagingSenderId: "433328408123",
-    appId: "1:433328408123:web:879956669ccdcc9592be1e",
-    measurementId: "G-4PS0CSCMB8"
+    apiKey: import.meta.env.PUBLIC_FIREBASE_API_KEY,
+    authDomain: import.meta.env.PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: import.meta.env.PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: import.meta.env.PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: import.meta.env.PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: import.meta.env.PUBLIC_FIREBASE_APP_ID,
+    measurementId: import.meta.env.PUBLIC_FIREBASE_MEASUREMENT_ID
 };
 
 export const app = initializeApp(firebaseConfig);

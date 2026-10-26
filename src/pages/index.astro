@@ -1,219 +1,348 @@
-  ---
-  // File: src/pages/index.astro
-  import Layout from "../layouts/Layout.astro";
-  ---
+---
+// File: src/pages/index.astro
+import Layout from "../layouts/Layout.astro";
+---
 
-  <Layout title="Katalog Produk - Aditya Computer">
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-24 md:pb-8 z-10">
-      <section class="space-y-4 md:space-y-8">
-        
-        <!-- HERO BANNER -->
-        <div class="bento-card accent-gradient text-white p-6 md:p-14 relative overflow-hidden rounded-2xl md:rounded-3xl shadow-md border border-red-500/10">
-          <div class="relative z-10 max-w-xl md:max-w-md lg:max-w-xl space-y-2 md:space-y-4">
-            <span class="px-2.5 py-0.5 bg-white/20 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1">
-              ✨ IT Support NO.1 di Kediri!
-            </span>
-            <h1 class="font-display font-black text-xl sm:text-3xl md:text-5xl leading-tight">Solusi Kebutuhan Teknologi Anda</h1>
-            <p class="text-white/85 text-[10px] sm:text-sm leading-relaxed">Mitra teknologi andalan Anda di Kediri. Aditya Computer menghadirkan laptop terbaru, komponen hardware berkualitas, dan solusi jaringan, didukung layanan perbaikan serta perakitan PC oleh teknisi profesional.</p>
-          </div>
-          <div class="absolute right-12 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-64 h-64 bg-white rounded-full border border-white/20 shadow-2xl p-9 select-none hover:rotate-6 hover:scale-105 transition-all duration-500">
-            <img src="/img/Fix.jpg" alt="Logo Aditya Computer" class="w-full h-full object-contain" />
-          </div>
+<Layout title="Katalog Produk - Aditya Computer">
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-24 md:pb-8 z-10">
+    <section class="space-y-4 md:space-y-8">
+      <!-- HERO BANNER -->
+      <div class="bento-card accent-gradient text-white p-6 md:p-14 relative overflow-hidden rounded-2xl md:rounded-3xl shadow-md border border-red-500/10">
+        <div class="relative z-10 max-w-xl md:max-w-md lg:max-w-xl space-y-2 md:space-y-4">
+          <span class="px-2.5 py-0.5 bg-white/20 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1">
+            ✨ IT Support NO.1 di Kediri!
+          </span>
+          <h1 class="font-display font-black text-xl sm:text-3xl md:text-5xl leading-tight">
+            Solusi Kebutuhan Teknologi Anda
+          </h1>
+          <p class="text-white/85 text-[10px] sm:text-sm leading-relaxed">
+            Mitra teknologi andalan Anda di Kediri. Aditya Computer menghadirkan
+            laptop terbaru, komponen hardware berkualitas, dan solusi jaringan,
+            didukung layanan perbaikan serta perakitan PC oleh teknisi
+            profesional.
+          </p>
         </div>
+        <div class="absolute right-12 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-64 h-64 bg-white rounded-full border border-white/20 shadow-2xl p-9 select-none hover:rotate-6 hover:scale-105 transition-all duration-500">
+          <img
+            src="/img/Fix.jpg"
+            alt="Logo Aditya Computer"
+            class="w-full h-full object-contain"
+          />
+        </div>
+      </div>
 
-        <!-- FILTER & SEARCH BAR -->
-        <div class="bento-card !overflow-visible p-4 md:p-5 flex flex-col gap-3 md:gap-4 bg-white/95 backdrop-blur-xs relative z-30">
-          <div class="flex flex-row items-center gap-2 w-full">
-            <div class="relative flex-grow w-2/3">
-              <i class="ri-search-line absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-              <input type="text" id="search-input" oninput="window.searchWithDebounce()" placeholder="Cari produk..." class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500" />
+      <!-- FILTER & SEARCH BAR -->
+      <div class="bento-card !overflow-visible p-4 md:p-5 flex flex-col gap-3 md:gap-4 bg-white/95 backdrop-blur-xs relative z-30">
+        <div class="flex flex-row items-center gap-2 w-full">
+          <div class="relative flex-grow w-2/3">
+            <i class="ri-search-line absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
+            <input
+              type="text"
+              id="search-input"
+              oninput="window.searchWithDebounce()"
+              placeholder="Cari produk..."
+              class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-2 focus:ring-red-500/20 focus:border-red-500"
+            />
+          </div>
+          <div
+            class="relative shrink-0 w-1/3 max-w-[140px] z-50"
+            id="custom-dropdown-container"
+          >
+            <button
+              onclick="window.toggleCustomDropdown()"
+              id="custom-dropdown-btn"
+              class="flex items-center justify-between gap-1 px-3 py-2.5 rounded-xl border border-slate-200 text-[10px] md:text-xs font-semibold bg-slate-50 text-slate-600 hover:bg-slate-100 transition-colors w-full cursor-pointer"
+            >
+              <span id="custom-dropdown-label" class="truncate">
+                Semua Kondisi
+              </span>
+              <i class="ri-arrow-down-s-line text-slate-400 shrink-0"></i>
+            </button>
+            <div
+              id="custom-dropdown-menu"
+              class="absolute right-0 top-full mt-2 w-36 bento-card p-2 bg-white shadow-xl transition-all duration-300 translate-y-2 opacity-0 pointer-events-none hidden"
+            >
+              <ul class="text-[10px] md:text-xs text-slate-700 font-semibold space-y-1">
+                <li
+                  onclick="window.selectCondition('Semua', 'Semua Kondisi')"
+                  class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+                >
+                  Semua Kondisi
+                </li>
+                <li
+                  onclick="window.selectCondition('Baru', 'Baru')"
+                  class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+                >
+                  Baru
+                </li>
+                <li
+                  onclick="window.selectCondition('Second', 'Second')"
+                  class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+                >
+                  Second
+                </li>
+              </ul>
             </div>
-            <div class="relative shrink-0 w-1/3 max-w-[140px] z-50" id="custom-dropdown-container">
-              <button onclick="window.toggleCustomDropdown()" id="custom-dropdown-btn" class="flex items-center justify-between gap-1 px-3 py-2.5 rounded-xl border border-slate-200 text-[10px] md:text-xs font-semibold bg-slate-50 text-slate-600 hover:bg-slate-100 transition-colors w-full cursor-pointer">
-                <span id="custom-dropdown-label" class="truncate">Semua Kondisi</span>
-                <i class="ri-arrow-down-s-line text-slate-400 shrink-0"></i>
-              </button>
-              <div id="custom-dropdown-menu" class="absolute right-0 top-full mt-2 w-36 bento-card p-2 bg-white shadow-xl transition-all duration-300 translate-y-2 opacity-0 pointer-events-none hidden">
-                <ul class="text-[10px] md:text-xs text-slate-700 font-semibold space-y-1">
-                  <li onclick="window.selectCondition('Semua', 'Semua Kondisi')" class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors">Semua Kondisi</li>
-                  <li onclick="window.selectCondition('Baru', 'Baru')" class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors">Baru</li>
-                  <li onclick="window.selectCondition('Second', 'Second')" class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors">Second</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none" id="categories-list">
-            <button onclick="window.filterCategory('Semua')" class="category-btn active px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer">Semua</button>
-            <button onclick="window.filterCategory('Laptop')" class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer">Laptop</button>
-            <button onclick="window.filterCategory('AIO dan PC')" class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer">AIO dan PC</button>
-            <button onclick="window.filterCategory('Monitor')" class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer">Monitor</button>
-            <button onclick="window.filterCategory('Printer & Scanner')" class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer">Printer & Scanner</button>
-            <button onclick="window.filterCategory('Networking')" class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer">Networking</button>
-            <button onclick="window.filterCategory('Aksesoris Lainnya')" class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer">Aksesoris Lainnya</button>
           </div>
         </div>
 
-        <!-- PRODUCT GRID -->
-        <div id="product-grid" class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
-          <div class="col-span-full py-16 flex flex-col items-center justify-center text-slate-400">
-            <i class="ri-loader-4-line animate-spin text-3xl mb-3 text-red-500"></i>
-            <p class="text-xs font-semibold tracking-wider uppercase">Memuat Katalog Produk...</p>
-          </div>
+        <div
+          class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none"
+          id="categories-list"
+        >
+          <button
+            onclick="window.filterCategory('Semua')"
+            class="category-btn active px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer"
+          >
+            Semua
+          </button>
+          <button
+            onclick="window.filterCategory('Laptop')"
+            class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer"
+          >
+            Laptop
+          </button>
+          <button
+            onclick="window.filterCategory('AIO dan PC')"
+            class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer"
+          >
+            AIO dan PC
+          </button>
+          <button
+            onclick="window.filterCategory('Monitor')"
+            class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer"
+          >
+            Monitor
+          </button>
+          <button
+            onclick="window.filterCategory('Printer & Scanner')"
+            class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer"
+          >
+            Printer & Scanner
+          </button>
+          <button
+            onclick="window.filterCategory('Networking')"
+            class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer"
+          >
+            Networking
+          </button>
+          <button
+            onclick="window.filterCategory('Aksesoris Lainnya')"
+            class="category-btn px-3.5 py-1.5 rounded-lg text-[10px] md:text-xs font-semibold whitespace-nowrap cursor-pointer"
+          >
+            Aksesoris Lainnya
+          </button>
         </div>
-      </section>
-    </main>
-  </Layout>
+      </div>
 
-  <script>
-    // @ts-nocheck
-    import { fetchProductsFromFirebase, getProxyUrl, formatRupiah } from "../lib/firebase.js";
+      <!-- PRODUCT GRID -->
+      <div
+        id="product-grid"
+        class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6"
+      >
+        <div class="col-span-full py-16 flex flex-col items-center justify-center text-slate-400">
+          <i class="ri-loader-4-line animate-spin text-3xl mb-3 text-red-500"></i>
+          <p class="text-xs font-semibold tracking-wider uppercase">
+            Memuat Katalog Produk...
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
 
-    let ALL_PRODUCTS = [];
-    window.currentCategory = "Semua";
-    window.currentCondition = "Semua";
-    window.searchTimeout = null;
+<script>
+  // @ts-nocheck
+  import {
+    fetchProductsFromFirebase,
+    getProxyUrl,
+    formatRupiah,
+  } from "../lib/firebase.js";
 
-    document.addEventListener('astro:page-load', async () => {
-      const grid = document.getElementById("product-grid");
-      if (!grid) return; 
+  let ALL_PRODUCTS = [];
+  window.currentCategory = "Semua";
+  window.currentCondition = "Semua";
+  window.searchTimeout = null;
 
-      ALL_PRODUCTS = await fetchProductsFromFirebase();
-      window.PRODUCTS_DATA = ALL_PRODUCTS; 
+  document.addEventListener("astro:page-load", async () => {
+    const grid = document.getElementById("product-grid");
+    if (!grid) return;
 
-      ALL_PRODUCTS.sort((a, b) => {
-        const nameA = (a.name || "").toString().toLowerCase();
-        const nameB = (b.name || "").toString().toLowerCase();
-        return nameA < nameB ? -1 : (nameA > nameB ? 1 : 0);
-      });
+    ALL_PRODUCTS = await fetchProductsFromFirebase();
+    window.PRODUCTS_DATA = ALL_PRODUCTS;
 
-      window.renderProducts(ALL_PRODUCTS);
+    ALL_PRODUCTS.sort((a, b) => {
+      const nameA = (a.name || "").toString().toLowerCase();
+      const nameB = (b.name || "").toString().toLowerCase();
+      return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
     });
 
-    window.renderProducts = (data) => {
-      const grid = document.getElementById("product-grid");
-      if (!grid) return;
-      
-      if (data.length === 0) {
-        grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400"><i class="ri-search-line text-4xl block mb-2"></i><p class="text-sm font-semibold">Produk tidak ditemukan.</p></div>`;
-        return;
+    window.renderProducts(ALL_PRODUCTS);
+  });
+
+  window.renderProducts = (data) => {
+    const grid = document.getElementById("product-grid");
+    if (!grid) return;
+
+    if (data.length === 0) {
+      grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400"><i class="ri-search-line text-4xl block mb-2"></i><p class="text-sm font-semibold">Produk tidak ditemukan.</p></div>`;
+      return;
+    }
+
+    let htmlBuffer = "";
+    data.forEach((prod) => {
+      const imagesArray =
+        prod.images && prod.images.length > 0 ? prod.images : [prod.image];
+
+      let sliderHtml = `<div id="slider-${prod.id}" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none w-full h-full relative scroll-smooth items-center">`;
+      imagesArray.forEach((imgUrl, idx) => {
+        const pxImg = getProxyUrl(imgUrl);
+        sliderHtml += `
+           <div class="w-full h-full shrink-0 snap-center snap-always flex items-center justify-center p-2 md:p-4 relative">
+             <img src="${pxImg}" alt="${prod.name} - Foto ${idx + 1}"
+                  onclick="window.openLightbox('${prod.id}', ${idx})" 
+                  loading="lazy" decoding="async"
+                  class="max-h-full max-w-full object-contain transition-transform duration-300 cursor-zoom-in group-hover:scale-105" 
+                  title="Klik untuk memperbesar">
+           </div>`;
+      });
+      sliderHtml += `</div>`;
+
+      let navButtonsHtml = "";
+      if (imagesArray.length > 1) {
+        navButtonsHtml = `
+            <button onclick="window.scrollSlider(event, '${prod.id}', -1)" class="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-7 md:h-7 bg-white/90 hover:bg-white rounded-full hidden md:flex items-center justify-center shadow-md text-slate-600 hover:text-red-600 transition-all duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-left-s-line text-sm md:text-base"></i></button>
+            <button onclick="window.scrollSlider(event, '${prod.id}', 1)" class="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-7 md:h-7 bg-white/90 hover:bg-white rounded-full hidden md:flex items-center justify-center shadow-md text-slate-600 hover:text-red-600 transition-all duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-right-s-line text-sm md:text-base"></i></button>
+            <div class="absolute bottom-1.5 right-1.5 bg-black/40 text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-sm z-20 pointer-events-none flex items-center gap-1 shadow-sm"><i class="ri-image-2-line"></i> ${imagesArray.length}</div>`;
       }
 
-      let htmlBuffer = "";
-      data.forEach((prod) => {
-        const imagesArray = prod.images && prod.images.length > 0 ? prod.images : [prod.image];
-        
-        let sliderHtml = `<div id="slider-${prod.id}" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none w-full h-full relative scroll-smooth items-center">`;
-        imagesArray.forEach((imgUrl, idx) => {
-          const pxImg = getProxyUrl(imgUrl);
-          sliderHtml += `
-            <div class="w-full h-full shrink-0 snap-center snap-always flex items-center justify-center p-2 md:p-4 relative">
-              <img src="${pxImg}" alt="${prod.name} - Foto ${idx+1}"
-                    onclick="window.openLightbox('${prod.id}', ${idx})" 
-                    loading="lazy" decoding="async"
-                    class="max-h-full max-w-full object-contain transition-transform duration-300 cursor-zoom-in group-hover:scale-105" 
-                    title="Klik untuk memperbesar">
-            </div>`;
-        });
-        sliderHtml += `</div>`;
+      // 1. Modifikasi: Spek sekarang dibungkus, jika kosong maka var ini murni string kosong
+      const specBadgesHtml =
+        prod.specs && prod.specs.length > 0
+          ? `<div class="flex flex-wrap gap-1 mt-1.5 overflow-hidden max-h-[22px] md:max-h-[26px]">` +
+            prod.specs
+              .map(
+                (s) =>
+                  `<span class="text-[9px] bg-slate-50 border border-slate-100 text-slate-500 px-1.5 py-0.5 rounded-sm truncate max-w-[120px]">${s}</span>`,
+              )
+              .join("") +
+            `</div>`
+          : "";
 
-        let navButtonsHtml = '';
-        if (imagesArray.length > 1) {
-          navButtonsHtml = `
-              <button onclick="window.scrollSlider(event, '${prod.id}', -1)" class="absolute left-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-7 md:h-7 bg-white/90 hover:bg-white rounded-full hidden md:flex items-center justify-center shadow-md text-slate-600 hover:text-red-600 transition-all duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-left-s-line text-sm md:text-base"></i></button>
-              <button onclick="window.scrollSlider(event, '${prod.id}', 1)" class="absolute right-1 top-1/2 -translate-y-1/2 w-6 h-6 md:w-7 md:h-7 bg-white/90 hover:bg-white rounded-full hidden md:flex items-center justify-center shadow-md text-slate-600 hover:text-red-600 transition-all duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-right-s-line text-sm md:text-base"></i></button>
-              <div class="absolute bottom-1.5 right-1.5 bg-black/40 text-white text-[9px] font-bold px-1.5 py-0.5 rounded backdrop-blur-sm z-20 pointer-events-none flex items-center gap-1 shadow-sm"><i class="ri-image-2-line"></i> ${imagesArray.length}</div>`;
-        }
+      const outOfStock = prod.stock === 0;
+      const labelHabisHtml = outOfStock
+        ? '<div class="absolute inset-0 bg-black/60 flex items-center justify-center z-30 pointer-events-none"><span class="text-white text-[10px] md:text-xs font-bold px-2 py-1 bg-red-600 rounded">SOLD OUT</span></div>'
+        : "";
+      const tombolBeliHtml = outOfStock
+        ? '<button disabled class="w-full sm:w-auto px-2.5 py-1.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-semibold bg-slate-100 text-slate-400 cursor-not-allowed">Beli</button>'
+        : `<button onclick="window.addToCart('${prod.id}')" class="btn-add-cart w-full sm:w-auto px-2.5 py-1.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-semibold cursor-pointer bg-red-600 text-white hover:bg-red-700 shadow-sm">Beli</button>`;
+      const conditionBadgeHtml =
+        prod.condition === "Second"
+          ? '<span class="absolute top-2 left-2 z-30 px-2 py-0.5 bg-orange-500/90 backdrop-blur-sm text-white text-[9px] font-bold rounded shadow-sm tracking-wider pointer-events-none">SECOND</span>'
+          : "";
 
-        const specBadges = prod.specs.map(s => `<span class="text-[9px] bg-slate-50 border border-slate-100 text-slate-500 px-1.5 py-0.5 rounded-sm truncate max-w-[120px]">${s}</span>`).join("");
-        const outOfStock = prod.stock === 0;
-        const labelHabisHtml = outOfStock ? '<div class="absolute inset-0 bg-black/60 flex items-center justify-center z-30 pointer-events-none"><span class="text-white text-[10px] md:text-xs font-bold px-2 py-1 bg-red-600 rounded">SOLD OUT</span></div>' : "";
-        const tombolBeliHtml = outOfStock 
-          ? '<button disabled class="w-full sm:w-auto px-2.5 py-1.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-semibold bg-slate-100 text-slate-400 cursor-not-allowed">Beli</button>' 
-          : `<button onclick="window.addToCart('${prod.id}')" class="btn-add-cart w-full sm:w-auto px-2.5 py-1.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-semibold cursor-pointer bg-red-600 text-white hover:bg-red-700 shadow-sm">Beli</button>`;
-        const conditionBadgeHtml = prod.condition === "Second" ? '<span class="absolute top-2 left-2 z-30 px-2 py-0.5 bg-orange-500/90 backdrop-blur-sm text-white text-[9px] font-bold rounded shadow-sm tracking-wider pointer-events-none">SECOND</span>' : "";
+      htmlBuffer += `
+        <div class="bento-card flex flex-col justify-between h-full bg-white border border-slate-100 rounded-xl md:rounded-2xl overflow-hidden group shadow-xs">
+            <div class="relative h-36 md:h-48 bg-slate-100/60 flex items-center justify-center border-b border-slate-100 overflow-hidden cursor-pointer" onclick="window.openProductDetail('${prod.id}')">
+                ${conditionBadgeHtml} ${sliderHtml} ${navButtonsHtml} ${labelHabisHtml}
+            </div>
+            <div class="p-3 md:p-4 flex-grow flex flex-col gap-2">
+                <!-- 2. Modifikasi: Kategori selalu nempel di atas -->
+                <span class="text-[9px] md:text-[10px] text-red-600 font-bold tracking-wider uppercase shrink-0">${prod.category}</span>
+                
+                <!-- 3. Modifikasi: Wadah Nama dan Spek, otomatis center jika flex-grow -->
+                <div class="flex-grow flex flex-col justify-center">
+                    <h3 class="font-display font-semibold text-xs md:text-sm text-slate-900 group-hover:text-red-600 transition-colors line-clamp-2 cursor-pointer" onclick="window.openProductDetail('${prod.id}')">${prod.name}</h3>
+                    ${specBadgesHtml}
+                </div>
+                
+                <!-- Footer Card -->
+                <div class="pt-2 md:pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 md:gap-2 shrink-0">
+                    <span class="font-display font-bold text-red-700 text-xs sm:text-sm md:text-base">${formatRupiah(prod.price)}</span>
+                    ${tombolBeliHtml}
+                </div>
+            </div>
+        </div>`;
+    });
+    grid.innerHTML = htmlBuffer;
+  };
 
-        htmlBuffer += `
-          <div class="bento-card flex flex-col justify-between h-full bg-white border border-slate-100 rounded-xl md:rounded-2xl overflow-hidden group shadow-xs">
-              <div class="relative h-36 md:h-48 bg-slate-100/60 flex items-center justify-center border-b border-slate-100 overflow-hidden cursor-pointer" onclick="window.openProductDetail('${prod.id}')">
-                  ${conditionBadgeHtml} ${sliderHtml} ${navButtonsHtml} ${labelHabisHtml}
-              </div>
-              <div class="p-3 md:p-5 flex-grow flex flex-col justify-between gap-1.5 md:gap-3">
-                  <div class="space-y-1 md:space-y-2">
-                      <span class="text-[9px] md:text-[10px] text-red-600 font-bold tracking-wider uppercase">${prod.category}</span>
-                      <h3 class="font-display font-semibold text-xs md:text-base text-slate-900 group-hover:text-red-600 transition-colors line-clamp-2 md:line-clamp-1 h-8 md:h-auto cursor-pointer" onclick="window.openProductDetail('${prod.id}')">${prod.name}</h3>
-                      <p class="text-[11px] text-slate-500 line-clamp-2 hidden sm:block">${prod.description}</p>
-                      <div class="flex flex-wrap gap-1 h-10 md:h-auto overflow-hidden">${specBadges}</div>
-                  </div>
-                  <div class="pt-2 md:pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 md:gap-2">
-                      <span class="font-display font-bold text-red-700 text-xs sm:text-sm md:text-base">${formatRupiah(prod.price)}</span>
-                      ${tombolBeliHtml}
-                  </div>
-              </div>
-          </div>`;
-      });
-      grid.innerHTML = htmlBuffer;
+  window.filterProducts = () => {
+    const searchInput = document.getElementById("search-input");
+    const query = searchInput ? searchInput.value.toLowerCase() : "";
+
+    const filtered = ALL_PRODUCTS.filter((prod) => {
+      const matchCategory =
+        window.currentCategory === "Semua" ||
+        prod.category === window.currentCategory;
+      const matchSearch =
+        prod.name.toLowerCase().includes(query) ||
+        (prod.brand || "").toLowerCase().includes(query);
+      const prodCondition = prod.condition || "Baru";
+      const matchCondition =
+        window.currentCondition === "Semua" ||
+        prodCondition === window.currentCondition;
+      return matchCategory && matchSearch && matchCondition;
+    });
+    window.renderProducts(filtered);
+  };
+
+  window.searchWithDebounce = () => {
+    clearTimeout(window.searchTimeout);
+    window.searchTimeout = setTimeout(window.filterProducts, 300);
+  };
+
+  window.filterCategory = (cat) => {
+    window.currentCategory = cat;
+    document.querySelectorAll(".category-btn").forEach((btn) => {
+      btn.classList.remove("active");
+      if (btn.innerText.trim() === cat) {
+        btn.classList.add("active");
+      }
+    });
+    window.filterProducts();
+  };
+
+  window.toggleCustomDropdown = () => {
+    const menu = document.getElementById("custom-dropdown-menu");
+    if (!menu) return;
+    const isOpen = !menu.classList.contains("hidden");
+
+    if (isOpen) {
+      menu.classList.add("translate-y-2", "opacity-0");
+      setTimeout(
+        () => menu.classList.add("hidden", "pointer-events-none"),
+        300,
+      );
+    } else {
+      menu.classList.remove("hidden");
+      setTimeout(
+        () =>
+          menu.classList.remove(
+            "pointer-events-none",
+            "translate-y-2",
+            "opacity-0",
+          ),
+        10,
+      );
     }
+  };
 
-    window.filterProducts = () => {
-      const searchInput = document.getElementById("search-input");
-      const query = searchInput ? searchInput.value.toLowerCase() : "";
-        
-      const filtered = ALL_PRODUCTS.filter((prod) => {
-        const matchCategory = window.currentCategory === "Semua" || prod.category === window.currentCategory;
-        const matchSearch = prod.name.toLowerCase().includes(query) || (prod.brand || "").toLowerCase().includes(query);
-        const prodCondition = prod.condition || "Baru";
-        const matchCondition = window.currentCondition === "Semua" || prodCondition === window.currentCondition;
-        return matchCategory && matchSearch && matchCondition;
-      });
-      window.renderProducts(filtered);
-    }
+  window.selectCondition = (value, label) => {
+    window.currentCondition = value;
+    document.getElementById("custom-dropdown-label").innerText = label;
+    window.toggleCustomDropdown();
+    window.filterProducts();
+  };
 
-    window.searchWithDebounce = () => {
-      clearTimeout(window.searchTimeout);
-      window.searchTimeout = setTimeout(window.filterProducts, 300);
-    }
-
-    window.filterCategory = (cat) => {
-      window.currentCategory = cat;
-      document.querySelectorAll(".category-btn").forEach(btn => {
-        btn.classList.remove("active");
-        if (btn.innerText.trim() === cat) {
-          btn.classList.add("active");
-        }
-      });
-      window.filterProducts();
-    }
-
-    window.toggleCustomDropdown = () => {
+  // Menutup dropdown kondisi jika klik di luar
+  document.addEventListener("click", function (e) {
+    const container = document.getElementById("custom-dropdown-container");
+    if (container && !container.contains(e.target)) {
       const menu = document.getElementById("custom-dropdown-menu");
-      if(!menu) return;
-      const isOpen = !menu.classList.contains("hidden");
-      
-      if (isOpen) {
-        menu.classList.add("translate-y-2", "opacity-0");
-        setTimeout(() => menu.classList.add("hidden", "pointer-events-none"), 300);
-      } else {
-        menu.classList.remove("hidden");
-        setTimeout(() => menu.classList.remove("pointer-events-none", "translate-y-2", "opacity-0"), 10);
+      if (menu && !menu.classList.contains("hidden")) {
+        window.toggleCustomDropdown();
       }
     }
-
-    window.selectCondition = (value, label) => {
-      window.currentCondition = value;
-      document.getElementById("custom-dropdown-label").innerText = label;
-      window.toggleCustomDropdown();
-      window.filterProducts(); 
-    }
-
-    // Menutup dropdown kondisi jika klik di luar
-    document.addEventListener("click", function (e) {
-      const container = document.getElementById("custom-dropdown-container");
-      if (container && !container.contains(e.target)) {
-        const menu = document.getElementById("custom-dropdown-menu");
-        if (menu && !menu.classList.contains("hidden")) {
-          window.toggleCustomDropdown();
-        }
-      }
-    });
-  </script>
+  });
+</script>
