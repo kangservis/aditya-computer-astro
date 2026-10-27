@@ -210,9 +210,11 @@ window.openProductDetail = (prodId) => {
   if (!prod) return;
 
   const imagesArray = prod.images && prod.images.length > 0 ? prod.images : [prod.image];
-  let sliderHtml = `<div id="slider-detail-${prod.id}" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none w-full h-full relative scroll-smooth items-center">`;
+// Hapus class 'scroll-smooth'
+  let sliderHtml = `<div id="slider-detail-${prod.id}" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none w-full h-full relative items-center">`;
   imagesArray.forEach((imgUrl, idx) => {
-     sliderHtml += `<div class="w-full h-full shrink-0 snap-center flex items-center justify-center p-2"><img src="${getProxyUrl(imgUrl)}" onclick="openLightbox('${prod.id}', ${idx})" class="max-h-full max-w-full object-contain cursor-zoom-in hover:scale-105 transition-transform duration-300"></div>`;
+     // Tambahkan class 'snap-always' agar selalu mengerem di setiap foto
+     sliderHtml += `<div class="w-full h-full shrink-0 snap-center snap-always flex items-center justify-center p-2"><img src="${getProxyUrl(imgUrl)}" onclick="openLightbox('${prod.id}', ${idx})" class="max-h-full max-w-full object-contain cursor-zoom-in hover:scale-105 transition-transform duration-300"></div>`;
   });
   sliderHtml += `</div>`;
 
@@ -299,7 +301,8 @@ window.openLightbox = (prodId, startIndex = 0) => {
       const imagesArray = prod.images && prod.images.length > 0 ? prod.images : [prod.image];
       let sliderHtml = `<div id="slider-lightbox" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none w-full h-full items-center">`;
       imagesArray.forEach((imgUrl) => {
-        sliderHtml += `<div class="w-full h-full shrink-0 snap-center flex items-center justify-center p-2 md:p-12"><img src="${getProxyUrl(imgUrl)}" class="max-h-full max-w-full object-contain rounded-xl"></div>`;
+        // Tambahkan class 'snap-always' di sini juga
+        sliderHtml += `<div class="w-full h-full shrink-0 snap-center snap-always flex items-center justify-center p-2 md:p-12"><img src="${getProxyUrl(imgUrl)}" class="max-h-full max-w-full object-contain rounded-xl"></div>`;
       });
       sliderHtml += `</div>`;
 

@@ -23,11 +23,7 @@ body::before {
     background-size: min(800px, 80vw); 
     opacity: 0.06; 
     z-index: -10; 
-    pointer-events: none; 
-    
-    /* MEMAKSA BROWSER MENGGUNAKAN GPU CHIP UNTUK RENDER (ANTI-LAG) */
-    transform: translate3d(0, 0, 0); 
-    will-change: transform; 
+    pointer-events: none;
 }
 
 .font-display {
