@@ -1,28 +1,72 @@
 ---
 // File: src/components/Header.astro
-const pathname = Astro.url.pathname;
+// Ubah bagian atas file menjadi seperti ini:
+let pathname = Astro.url.pathname;
+// Hilangkan garis miring di akhir URL jika ada (kecuali halaman utama)
+if (pathname.length > 1 && pathname.endsWith("/")) {
+  pathname = pathname.slice(0, -1);
+}
 ---
+
 <header class="sticky top-0 z-40 bg-white md:bg-white/95 md:backdrop-blur-md border-b border-slate-200/80 shadow-xs px-4 sm:px-6 lg:px-8">
   <div class="max-w-7xl mx-auto h-16 flex items-center justify-between">
     <!-- Logo & Brand -->
     <a href="/" class="flex items-center gap-3 cursor-pointer">
-      <img src="/img/Fix.jpg" alt="Logo Aditya Computer" class="w-10 h-10 object-contain rounded-xl border border-slate-100 shadow-xs bg-white" />
-      <span class="font-display font-black text-lg tracking-tight text-slate-900">Aditya <span class="text-red-600">Computer</span></span>
+      <img
+        src="/img/Fix.jpg"
+        alt="Logo Aditya Computer"
+        class="w-10 h-10 object-contain rounded-xl border border-slate-100 shadow-xs bg-white"
+      />
+      <span class="font-display font-black text-lg tracking-tight text-slate-900">
+        Aditya <span class="text-red-600">Computer</span>
+      </span>
     </a>
 
     <!-- Desktop Nav Links -->
     <nav class="hidden md:flex items-center gap-1 text-sm font-medium text-slate-600">
-      <a href="/" class={`px-4 py-2 rounded-lg transition-colors ${pathname === '/' ? 'text-red-600 bg-red-50/50 font-bold' : 'hover:text-red-600 hover:bg-slate-50'}`}>Katalog</a>
-      <a href="/artikel" class={`px-4 py-2 rounded-lg transition-colors ${pathname === '/artikel' ? 'text-red-600 bg-red-50/50 font-bold' : 'hover:text-red-600 hover:bg-slate-50'}`}>Artikel</a>
-      <a href="/lokasi" class={`px-4 py-2 rounded-lg transition-colors ${pathname === '/lokasi' ? 'text-red-600 bg-red-50/50 font-bold' : 'hover:text-red-600 hover:bg-slate-50'}`}>Lokasi Toko</a>
-      <a href="/kontak" class={`px-4 py-2 rounded-lg transition-colors ${pathname === '/kontak' ? 'text-red-600 bg-red-50/50 font-bold' : 'hover:text-red-600 hover:bg-slate-50'}`}>Hubungi Kami</a>
+      <a
+        href="/"
+        data-astro-prefetch
+        class={`px-4 py-2 rounded-lg transition-colors ${pathname === "/" ? "text-red-600 bg-red-50/50 font-bold" : "hover:text-red-600 hover:bg-slate-50"}`}
+      >
+        Katalog
+      </a>
+      <a
+        href="/artikel"
+        data-astro-prefetch
+        class={`px-4 py-2 rounded-lg transition-colors ${pathname === "/artikel" ? "text-red-600 bg-red-50/50 font-bold" : "hover:text-red-600 hover:bg-slate-50"}`}
+      >
+        Artikel
+      </a>
+      <a
+        href="/lokasi"
+        data-astro-prefetch
+        class={`px-4 py-2 rounded-lg transition-colors ${pathname === "/lokasi" ? "text-red-600 bg-red-50/50 font-bold" : "hover:text-red-600 hover:bg-slate-50"}`}
+      >
+        Lokasi Toko
+      </a>
+      <a
+        href="/kontak"
+        data-astro-prefetch
+        class={`px-4 py-2 rounded-lg transition-colors ${pathname === "/kontak" ? "text-red-600 bg-red-50/50 font-bold" : "hover:text-red-600 hover:bg-slate-50"}`}
+      >
+        Hubungi Kami
+      </a>
     </nav>
 
     <!-- Cart Trigger (Sekarang sudah dipasangi onclick="window.toggleCart(true)") -->
     <div class="flex items-center gap-3">
-      <button onclick="window.toggleCart(true)" class="relative p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all cursor-pointer">
+      <button
+        onclick="window.toggleCart(true)"
+        class="relative p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-700 hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-all cursor-pointer"
+      >
         <i class="ri-shopping-cart-line text-xl"></i>
-        <span id="cart-count" class="hidden absolute -top-1.5 -right-1.5 h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-xs">0</span>
+        <span
+          id="cart-count"
+          class="hidden absolute -top-1.5 -right-1.5 h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-xs"
+        >
+          0
+        </span>
       </button>
     </div>
   </div>
