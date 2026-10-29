@@ -95,3 +95,11 @@ body::before {
         background: #94a3b8;
     }
 }
+
+/* Navigasi antar halaman: tanpa animasi apa pun (langsung snap) */
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+    animation: none !important;
+    mix-blend-mode: normal;
+}

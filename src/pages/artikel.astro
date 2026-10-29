@@ -92,24 +92,26 @@ import Layout from "../layouts/Layout.astro";
 
     let ARTICLES_DATA = [];
 
-    // Menggunakan astro:page-load agar script jalan saat transisi tab
-    document.addEventListener("astro:page-load", async () => {
+    // Dipanggil saat pindah tab (before paint) dan saat halaman dimuat pertama kali
+    function mulaiArtikel() {
       const grid = document.getElementById("articles-grid");
-      if (!grid) return;
+      if (!grid || grid.dataset.dimuat) return;
+      grid.dataset.dimuat = "1";
 
-      setupArticleModals(); // elemen modal baru tiap kunjungan, aman dipasang di awal
+      setupArticleModals(); // elemen modal baru tiap kunjungan
 
-      try {
-        await loadCollection("articles", (data) => {
-          ARTICLES_DATA = data;
-          renderArticles(ARTICLES_DATA);
-        });
-      } catch (error) {
+      loadCollection("articles", (data) => {
+        ARTICLES_DATA = data;
+        renderArticles(ARTICLES_DATA);
+      }).catch((error) => {
         console.error("Gagal memuat artikel:", error);
         grid.innerHTML =
           '<p class="col-span-full text-center text-red-500 py-10">Gagal memuat artikel.</p>';
-      }
-    });
+      });
+    }
+
+    document.addEventListener("astro:after-swap", mulaiArtikel);
+    document.addEventListener("astro:page-load", mulaiArtikel);
 
     function renderArticles(data) {
       const grid = document.getElementById("articles-grid");

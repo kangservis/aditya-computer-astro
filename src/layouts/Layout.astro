@@ -63,12 +63,9 @@ const {
       rel="stylesheet"
     />
 
-    <ClientRouter />
+    <ClientRouter fallback="swap" />
   </head>
-  <body
-    transition:animate="none"
-    class="font-sans bg-slate-50 text-slate-900 min-h-screen flex flex-col relative select-none md:select-text"
-  >
+  <body class="font-sans bg-slate-50 text-slate-900 min-h-screen flex flex-col relative select-none md:select-text">
     <!-- Memanggil komponen Header -->
     <Header />
 

@@ -161,36 +161,39 @@ import Layout from "../layouts/Layout.astro";
   window.currentCondition = "Semua";
   window.searchTimeout = null;
 
-  // File: src/pages/index.astro (Lokasi: Blok <script>, sekitar baris 113)
-
-  document.addEventListener("astro:page-load", async () => {
+  // Memulai katalog. Dipanggil lewat dua pintu:
+  // - astro:after-swap  : saat pindah tab, SEBELUM layar digambar (tanpa kilatan spinner)
+  // - astro:page-load   : saat halaman dimuat pertama kali
+  // Penanda data-dimuat mencegah proses berjalan dua kali pada halaman yang sama.
+  function mulaiKatalog() {
     const grid = document.getElementById("product-grid");
-    if (!grid) return;
+    if (!grid || grid.dataset.dimuat) return;
+    grid.dataset.dimuat = "1";
 
     // DOM baru setiap kunjungan, jadi filter dikembalikan ke "Semua"
-    // agar sama dengan tampilan tombolnya
     window.currentCategory = "Semua";
     window.currentCondition = "Semua";
 
-    try {
-      await loadCollection("products", (data) => {
-        ALL_PRODUCTS = data.slice().sort((a, b) => {
-          const nameA = (a.name || "").toString().toLowerCase();
-          const nameB = (b.name || "").toString().toLowerCase();
-          return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
-        });
-        window.PRODUCTS_DATA = ALL_PRODUCTS;
-        window.filterProducts(); // render ulang sambil menghormati filter/pencarian aktif
+    loadCollection("products", (data) => {
+      ALL_PRODUCTS = data.slice().sort((a, b) => {
+        const nameA = (a.name || "").toString().toLowerCase();
+        const nameB = (b.name || "").toString().toLowerCase();
+        return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
       });
-    } catch (error) {
+      window.PRODUCTS_DATA = ALL_PRODUCTS;
+      window.filterProducts(); // render ulang sambil menghormati filter/pencarian aktif
+    }).catch((error) => {
       console.error("Gagal memuat produk:", error);
       grid.innerHTML = `<div class="col-span-full py-12 text-center text-slate-400"><i class="ri-wifi-off-line text-4xl block mb-2"></i><p class="text-sm font-semibold">Gagal memuat produk. Periksa koneksi lalu muat ulang halaman.</p></div>`;
-    }
+    });
 
     // Hangatkan cache artikel saat browser santai, agar tab Artikel terbuka instan
     const santai = window.requestIdleCallback || ((fn) => setTimeout(fn, 2000));
     santai(() => loadCollection("articles").catch(() => {}));
-  });
+  }
+
+  document.addEventListener("astro:after-swap", mulaiKatalog);
+  document.addEventListener("astro:page-load", mulaiKatalog);
 
   window.renderProducts = (data) => {
     const grid = document.getElementById("product-grid");
