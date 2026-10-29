@@ -24,10 +24,6 @@ body::before {
     opacity: 0.06; 
     z-index: -10; 
     pointer-events: none;
-
-    /* MEMAKSA BROWSER MENGGUNAKAN GPU CHIP UNTUK RENDER (ANTI-LAG) */
-    transform: translate3d(0, 0, 0); 
-    will-change: transform; 
 }
 
 .font-display {
@@ -39,7 +35,6 @@ body::before {
     background: #ffffff;
     border: 1px solid rgba(0, 0, 0, 0.06);
     border-radius: 1rem;
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
 }
 
@@ -47,10 +42,12 @@ body::before {
     .bento-card {
         border-radius: 1.25rem;
     }
+}
+
+/* Hover hanya untuk perangkat bermouse, tanpa animasi (langsung snap) */
+@media (hover: hover) and (min-width: 768px) {
     .bento-card:hover {
         border-color: #dc2626;
-        transform: translateY(-2px);
-        box-shadow: 0 10px 20px -3px rgba(220, 38, 38, 0.08);
     }
 }
 
@@ -63,7 +60,6 @@ body::before {
     background-color: #f1f5f9;
     color: #475569;
     border: 1px solid #e2e8f0;
-    transition: all 0.2s;
 }
 
 .category-btn.active {

@@ -17,16 +17,16 @@ import Layout from "../layouts/Layout.astro";
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto items-stretch">
         <!-- CARD INFORMASI KONTAK -->
-        <div class="bento-card p-6 md:p-8 space-y-6 bg-white/95 backdrop-blur-xs flex flex-col justify-center">
+        <div class="bento-card p-6 md:p-8 space-y-6 bg-white/95 flex flex-col justify-center">
           <h3 class="font-display font-bold text-slate-800 text-base md:text-lg">
             Informasi Pembayaran & Kontak
           </h3>
           <div class="space-y-4 w-full">
             <div
               onclick="window.copyText('081297933936', 'Nomor WhatsApp berhasil disalin!')"
-              class="flex items-center gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:border-emerald-300 hover:bg-emerald-50 active:bg-emerald-100 active:scale-[0.98] hover:shadow-sm cursor-pointer transition-all group"
+              class="flex items-center gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:border-emerald-300 hover:bg-emerald-50 active:bg-emerald-100 active:scale-[0.98] hover:shadow-sm cursor-pointer transition-colors group"
             >
-              <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl shrink-0 transition-transform group-hover:scale-110">
+              <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-2xl shrink-0">
                 <i class="ri-whatsapp-line"></i>
               </div>
               <div class="flex-grow">
@@ -42,9 +42,9 @@ import Layout from "../layouts/Layout.astro";
 
             <div
               onclick="window.copyText('320801046217539', 'Nomor Rekening BRI berhasil disalin!')"
-              class="flex items-center gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:border-blue-300 hover:bg-blue-50 active:bg-blue-100 active:scale-[0.98] hover:shadow-sm cursor-pointer transition-all group"
+              class="flex items-center gap-4 p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:border-blue-300 hover:bg-blue-50 active:bg-blue-100 active:scale-[0.98] hover:shadow-sm cursor-pointer transition-colors group"
             >
-              <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl shrink-0 transition-transform group-hover:scale-110">
+              <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-2xl shrink-0">
                 <i class="ri-bank-card-line"></i>
               </div>
               <div class="flex-grow">
@@ -61,7 +61,7 @@ import Layout from "../layouts/Layout.astro";
         </div>
 
         <!-- CARD FORM KONSULTASI -->
-        <div class="bento-card p-6 md:p-8 space-y-6 bg-white/95 backdrop-blur-xs !overflow-visible flex flex-col justify-center">
+        <div class="bento-card p-6 md:p-8 space-y-6 bg-white/95 !overflow-visible flex flex-col justify-center">
           <h3 class="font-display font-bold text-slate-800 text-base md:text-lg">
             Form Konsultasi Cepat
           </h3>
@@ -70,7 +70,7 @@ import Layout from "../layouts/Layout.astro";
               type="text"
               id="wa-name"
               placeholder="Nama Lengkap Anda"
-              class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all"
+              class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-colors"
             />
 
             <div class="relative w-full z-40" id="wa-subject-container">
@@ -78,7 +78,7 @@ import Layout from "../layouts/Layout.astro";
                 type="button"
                 onclick="window.toggleWaDropdown()"
                 id="wa-subject-btn"
-                class="w-full flex items-center justify-between border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white hover:bg-slate-50 focus:ring-2 focus:ring-red-500/20 active:scale-[0.98] active:bg-slate-100 transition-all cursor-pointer outline-none relative z-10"
+                class="w-full flex items-center justify-between border border-slate-200 rounded-xl px-4 py-3 text-sm bg-white hover:bg-slate-50 focus:ring-2 focus:ring-red-500/20 active:scale-[0.98] active:bg-slate-100 transition-colors cursor-pointer outline-none relative z-10"
               >
                 <span id="wa-subject-label" class="text-slate-600 truncate">
                   Tanya stok laptop / aksesoris
@@ -88,7 +88,7 @@ import Layout from "../layouts/Layout.astro";
 
               <div
                 id="wa-subject-menu"
-                class="absolute left-0 right-0 top-full mt-2 bento-card p-2 !bg-white shadow-xl transition-all duration-300 translate-y-2 opacity-0 pointer-events-none hidden z-[60]"
+                class="absolute left-0 right-0 top-full mt-2 bento-card p-2 !bg-white shadow-xl transition-colors duration-300 translate-y-2 opacity-0 pointer-events-none hidden z-[60]"
               >
                 <ul class="text-[13px] text-slate-700 font-medium space-y-1">
                   <li
@@ -120,7 +120,7 @@ import Layout from "../layouts/Layout.astro";
 
             <button
               onclick="window.sendWA()"
-              class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md shadow-emerald-500/20"
+              class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-md shadow-emerald-500/20"
             >
               <i class="ri-whatsapp-fill text-xl"></i> Kirim ke WhatsApp
             </button>

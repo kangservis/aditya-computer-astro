@@ -22,7 +22,7 @@ import Layout from "../layouts/Layout.astro";
             profesional.
           </p>
         </div>
-        <div class="absolute right-12 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-64 h-64 bg-white rounded-full border border-white/20 shadow-2xl p-9 select-none hover:rotate-6 hover:scale-105 transition-all duration-500">
+        <div class="absolute right-12 top-1/2 -translate-y-1/2 hidden md:flex items-center justify-center w-64 h-64 bg-white rounded-full border border-white/20 shadow-2xl p-9 select-none">
           <img
             src="/img/Fix.jpg"
             alt="Logo Aditya Computer"
@@ -51,7 +51,7 @@ import Layout from "../layouts/Layout.astro";
             <button
               onclick="window.toggleCustomDropdown()"
               id="custom-dropdown-btn"
-              class="flex items-center justify-between gap-1 px-3 py-2.5 rounded-xl border border-slate-200 text-[10px] md:text-xs font-semibold bg-slate-50 text-slate-600 hover:bg-slate-100 active:scale-[0.98] active:bg-slate-200 transition-all w-full cursor-pointer relative z-10"
+              class="flex items-center justify-between gap-1 px-3 py-2.5 rounded-xl border border-slate-200 text-[10px] md:text-xs font-semibold bg-slate-50 text-slate-600 hover:bg-slate-100 active:scale-[0.98] active:bg-slate-200 transition-colors w-full cursor-pointer relative z-10"
             >
               <span id="custom-dropdown-label" class="truncate">
                 Semua Kondisi
@@ -60,7 +60,7 @@ import Layout from "../layouts/Layout.astro";
             </button>
             <div
               id="custom-dropdown-menu"
-              class="absolute right-0 top-full mt-2 w-36 bento-card p-2 !bg-white shadow-xl transition-all duration-300 translate-y-2 opacity-0 pointer-events-none hidden z-[60]"
+              class="absolute right-0 top-full mt-2 w-36 bento-card p-2 !bg-white shadow-xl transition-colors duration-300 translate-y-2 opacity-0 pointer-events-none hidden z-[60]"
             >
               <ul class="text-[10px] md:text-xs text-slate-700 font-semibold space-y-1">
                 <li
@@ -216,7 +216,7 @@ import Layout from "../layouts/Layout.astro";
          <div class="w-full h-full flex items-center justify-center p-3 relative">
            <img src="${firstImg}" alt="${prod.name}"
                 loading="lazy" decoding="async"
-                class="max-h-full max-w-full object-contain transition-transform duration-300 group-hover:scale-105" >
+                class="max-h-full max-w-full object-contain" >
          </div>`;
 
       const navButtonsHtml = "";
@@ -243,7 +243,7 @@ import Layout from "../layouts/Layout.astro";
         : `<button onclick="window.addToCart('${prod.id}')" class="btn-add-cart w-full sm:w-auto px-2.5 py-1.5 rounded-lg md:rounded-xl text-[10px] md:text-xs font-semibold cursor-pointer bg-red-600 text-white hover:bg-red-700 shadow-sm">Beli</button>`;
       const conditionBadgeHtml =
         prod.condition === "Second"
-          ? '<span class="absolute top-2 left-2 z-30 px-2 py-0.5 bg-orange-500/90 backdrop-blur-sm text-white text-[9px] font-bold rounded shadow-sm tracking-wider pointer-events-none">SECOND</span>'
+          ? '<span class="absolute top-2 left-2 z-30 px-2 py-0.5 bg-orange-500/90 text-white text-[9px] font-bold rounded shadow-sm tracking-wider pointer-events-none">SECOND</span>'
           : "";
 
       htmlBuffer += `
