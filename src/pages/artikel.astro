@@ -87,11 +87,8 @@ import Layout from "../layouts/Layout.astro";
 
   <script>
     // @ts-nocheck
-    import { db, getProxyUrl } from "../lib/firebase.js";
-    import {
-      collection,
-      getDocs,
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getProxyUrl } from "../lib/firebase.js";
+    import { loadCollection } from "../lib/data.js";
 
     let ARTICLES_DATA = [];
 
@@ -100,15 +97,15 @@ import Layout from "../layouts/Layout.astro";
       const grid = document.getElementById("articles-grid");
       if (!grid) return;
 
+      setupArticleModals(); // elemen modal baru tiap kunjungan, aman dipasang di awal
+
       try {
-        const querySnapshot = await getDocs(collection(db, "articles"));
-        ARTICLES_DATA = [];
-        querySnapshot.forEach((doc) => {
-          ARTICLES_DATA.push({ id: doc.id, ...doc.data() });
+        await loadCollection("articles", (data) => {
+          ARTICLES_DATA = data;
+          renderArticles(ARTICLES_DATA);
         });
-        renderArticles(ARTICLES_DATA);
-        setupArticleModals();
       } catch (error) {
+        console.error("Gagal memuat artikel:", error);
         grid.innerHTML =
           '<p class="col-span-full text-center text-red-500 py-10">Gagal memuat artikel.</p>';
       }
@@ -116,6 +113,7 @@ import Layout from "../layouts/Layout.astro";
 
     function renderArticles(data) {
       const grid = document.getElementById("articles-grid");
+      if (!grid) return;
       if (data.length === 0) {
         grid.innerHTML =
           '<p class="col-span-full text-center text-slate-500 py-10">Belum ada artikel edukasi saat ini.</p>';

@@ -655,6 +655,7 @@ import "../styles/globals.css";
     <script>
       // @ts-nocheck
       import { app, db, getProxyUrl } from "../lib/firebase.js";
+      import { hapusCache } from "../lib/data.js";
       import {
         getAuth,
         signInWithEmailAndPassword,
@@ -1105,6 +1106,7 @@ import "../styles/globals.css";
               await updateDoc(doc(db, "products", docId), productData);
               window.showNotification("Produk diperbarui!");
             }
+            hapusCache("products");
             window.closeProductForm();
             loadProductsFromFirestore();
           } catch (error) {
@@ -1241,6 +1243,7 @@ import "../styles/globals.css";
               await updateDoc(doc(db, "articles", docId), articleData);
               window.showNotification("Artikel diperbarui!");
             }
+            hapusCache("articles");
             window.closeArticleForm();
             loadArticles();
           } catch (error) {
@@ -1297,6 +1300,7 @@ import "../styles/globals.css";
           btn.disabled = true;
           try {
             await deleteDoc(doc(db, collectionToDelete, itemToDelete));
+            hapusCache(collectionToDelete); // nilainya "products" atau "articles", sama dengan kunci cache
             window.showNotification("Data berhasil dihapus!");
             if (collectionToDelete === "products") loadProductsFromFirestore();
             if (collectionToDelete === "articles") loadArticles();
