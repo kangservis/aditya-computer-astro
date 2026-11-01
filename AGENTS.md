@@ -1,22 +1,27 @@
+# Aditya Computer — AGENTS.md
+
+Aturan lengkap proyek ada di `.github/copilot-instructions.md`. Baca file itu lebih dulu; file ini hanya berisi catatan teknis singkat agar tidak ada instruksi ganda atau saling bertentangan.
+
 ## Development
 
-When starting the dev server, use background mode:
+Saat menjalankan dev server, gunakan mode background:
 
 ```
 astro dev --background
 ```
 
-Manage the background server with `astro dev stop`, `astro dev status`, and `astro dev logs`.
+Kelola server dengan `astro dev stop`, `astro dev status`, dan `astro dev logs`.
 
-## Documentation
+Verifikasi hasil dengan `npm run build`. Jangan menjalankan `git commit` atau `git push`.
 
-Full documentation: https://docs.astro.build
+## Dokumentasi
 
-Consult these guides before working on related tasks:
+Dokumentasi Astro: https://docs.astro.build
 
-- [Adding pages, dynamic routes, or middleware](https://docs.astro.build/en/guides/routing/)
-- [Working with Astro components](https://docs.astro.build/en/basics/astro-components/)
-- [Using React, Vue, Svelte, or other framework components](https://docs.astro.build/en/guides/framework-components/)
-- [Adding or managing content](https://docs.astro.build/en/guides/content-collections/)
-- [Adding styles or using Tailwind](https://docs.astro.build/en/guides/styling/)
-- [Supporting multiple languages](https://docs.astro.build/en/guides/internationalization/)
+Rujuk panduan ini sebelum mengerjakan hal terkait:
+
+- [Routing, rute dinamis, middleware](https://docs.astro.build/en/guides/routing/)
+- [Komponen Astro](https://docs.astro.build/en/basics/astro-components/)
+- [Styling dan Tailwind](https://docs.astro.build/en/guides/styling/)
+
+Catatan: proyek ini tidak memakai framework UI (React/Vue/Svelte), content collections, atau i18n. Jangan menambahkannya tanpa persetujuan pemilik.
