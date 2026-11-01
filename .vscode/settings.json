@@ -4,8 +4,4 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.formatOnSave": true
   },
-  "editor.formatOnSave": true,
-  "chat.promptFilesLocations": {
-    ".github/prompts": true
-  }
 }
