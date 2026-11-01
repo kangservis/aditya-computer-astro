@@ -214,7 +214,7 @@ window.openProductDetail = (prodId) => {
   let sliderHtml = `<div id="slider-detail-${prod.id}" class="flex overflow-x-auto snap-x snap-mandatory scrollbar-none w-full h-full relative items-center">`;
   imagesArray.forEach((imgUrl, idx) => {
      // Tambahkan class 'snap-always' agar selalu mengerem di setiap foto
-     sliderHtml += `<div class="w-full h-full shrink-0 snap-center snap-always flex items-center justify-center p-2"><img src="${getProxyUrl(imgUrl)}" onclick="openLightbox('${prod.id}', ${idx})" class="max-h-full max-w-full object-contain cursor-zoom-in hover:scale-105 transition-transform duration-300"></div>`;
+     sliderHtml += `<div class="w-full h-full shrink-0 snap-center snap-always flex items-center justify-center p-2"><img src="${getProxyUrl(imgUrl)}" data-image-index="${idx}" onclick="openLightbox('${prod.id}', ${idx})" class="max-h-full max-w-full object-contain cursor-zoom-in hover:scale-105 transition-transform duration-300"></div>`;
   });
   sliderHtml += `</div>`;
 
@@ -222,13 +222,35 @@ window.openProductDetail = (prodId) => {
   let navHtml = '';
   if (imagesArray.length > 1) {
      navHtml = `
-        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', -1)" class="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-colors duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-left-s-line"></i></button>
-        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', 1)" class="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-colors duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-right-s-line"></i></button>
-        <div class="absolute bottom-1 right-1 bg-black/40 text-white text-[9px] font-bold px-1.5 py-0.5 rounded z-20 pointer-events-none flex items-center gap-1"><i class="ri-image-2-line"></i> ${imagesArray.length}</div>
+        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', -1)" class="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 xl:w-10 xl:h-10 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-colors duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-left-s-line"></i></button>
+        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', 1)" class="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 xl:w-10 xl:h-10 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-colors duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-right-s-line"></i></button>
+        <div class="absolute bottom-1 right-1 bg-black/40 text-white text-[9px] xl:text-xs font-bold px-1.5 py-0.5 rounded z-20 pointer-events-none flex items-center gap-1"><i class="ri-image-2-line"></i> ${imagesArray.length}</div>
      `;
   }
   
-  document.getElementById("detail-slider-container").innerHTML = sliderHtml + navHtml;
+  const detailSliderContainer = document.getElementById("detail-slider-container");
+  detailSliderContainer.innerHTML = sliderHtml + navHtml;
+
+  // Tampilkan foto standar lebih dulu, lalu tingkatkan ketajaman jika versi besar berhasil dimuat.
+  const detailModal = document.getElementById("product-detail-modal");
+  detailSliderContainer.querySelectorAll("img[data-image-index]").forEach((displayedImage) => {
+    const imgUrl = imagesArray[Number(displayedImage.dataset.imageIndex)];
+    if (!imgUrl) return;
+
+    const highResolutionUrl = getProxyUrl(imgUrl, 800);
+    const preloadedImage = new Image();
+    preloadedImage.onload = () => {
+      if (
+        displayedImage.isConnected &&
+        detailModal &&
+        !detailModal.classList.contains("hidden") &&
+        detailSliderContainer.contains(displayedImage)
+      ) {
+        displayedImage.src = highResolutionUrl;
+      }
+    };
+    preloadedImage.src = highResolutionUrl;
+  });
   document.getElementById("detail-category").innerText = prod.category;
   
   const condition = prod.condition || "Baru";
@@ -240,24 +262,32 @@ window.openProductDetail = (prodId) => {
   const stockEl = document.getElementById("detail-stock");
   if (prod.stock > 0) {
     stockEl.innerText = `Stok: Tersedia (${prod.stock} unit)`;
-    stockEl.className = "text-[11px] font-bold text-emerald-600";
+    stockEl.className = "text-[11px] xl:text-base font-bold text-emerald-600";
   } else {
     stockEl.innerText = "Stok: Habis Terjual";
-    stockEl.className = "text-[11px] font-bold text-rose-600";
+    stockEl.className = "text-[11px] xl:text-base font-bold text-rose-600";
   }
 
-  document.getElementById("detail-specs").innerHTML = prod.specs.map(s => `<span class="text-[14px] bg-slate-100 border border-slate-200 text-slate-600 px-2.5 py-1 rounded-lg font-mono">${s}</span>`).join("");
+  const specsEl = document.getElementById("detail-specs");
+  specsEl.innerHTML = "";
+  (prod.specs || []).forEach((spec) => {
+    const chip = document.createElement("span");
+    chip.className =
+      "text-[14px] xl:text-base bg-slate-100 border border-slate-200 text-slate-600 px-2.5 py-1 xl:px-3 xl:py-1.5 rounded-lg font-mono";
+    chip.textContent = spec;
+    specsEl.appendChild(chip);
+  });
 
   const buyBtn = document.getElementById("detail-buy-btn");
   if (prod.stock > 0) {
     buyBtn.disabled = false;
     buyBtn.innerText = "Masukkan Keranjang";
-    buyBtn.className = "w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-semibold bg-red-600 text-white hover:bg-red-700 shadow-md cursor-pointer";
+    buyBtn.className = "w-full sm:w-auto px-5 py-2.5 xl:px-8 xl:py-3.5 rounded-xl text-xs xl:text-base font-semibold bg-red-600 text-white hover:bg-red-700 shadow-md cursor-pointer";
     buyBtn.setAttribute("onclick", `addToCart('${prod.id}'); closeProductDetail();`);
   } else {
     buyBtn.disabled = true;
     buyBtn.innerText = "Stok Habis";
-    buyBtn.className = "w-full sm:w-auto px-5 py-2.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-400 cursor-not-allowed";
+    buyBtn.className = "w-full sm:w-auto px-5 py-2.5 xl:px-8 xl:py-3.5 rounded-xl text-xs xl:text-base font-semibold bg-slate-100 text-slate-400 cursor-not-allowed";
     buyBtn.setAttribute("onclick", "");
   }
 
