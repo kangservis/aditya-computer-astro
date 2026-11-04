@@ -55,6 +55,32 @@ body::before {
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
 
+/* Latar merah merona untuk hero desktop. */
+.hero-merona {
+    background:
+    /* bayangan merah tua lembut di bagian bawah (memberi kedalaman) */
+    linear-gradient(to top, rgba(69, 10, 10, 0.5) 0%, rgba(69, 10, 10, 0) 38%),
+    /* pijar putih di belakang logo bundar */
+    radial-gradient(circle at 73% 48%, rgba(255, 255, 255, 0.36) 0%, rgba(255, 255, 255, 0.14) 30%, rgba(255, 255, 255, 0) 58%),
+    /* pita cahaya putih utama (diagonal, melintas di antara teks dan logo) */
+    linear-gradient(118deg, rgba(255, 255, 255, 0) 36%, rgba(255, 255, 255, 0.1) 46%, rgba(255, 255, 255, 0.26) 54%, rgba(255, 255, 255, 0.08) 62%, rgba(255, 255, 255, 0) 72%),
+    /* pita cahaya kedua, tipis, di kanan logo */
+    linear-gradient(118deg, rgba(255, 255, 255, 0) 68%, rgba(255, 255, 255, 0.1) 76%, rgba(255, 255, 255, 0) 86%),
+    /* semburat putih lembut di pojok kanan atas */
+    radial-gradient(ellipse 50% 65% at 100% 0%, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%),
+    /* kantong merah tua di pojok kiri bawah */
+    radial-gradient(ellipse 60% 80% at 0% 100%, rgba(127, 29, 29, 0.95) 0%, rgba(127, 29, 29, 0) 70%),
+    /* merah tua di kiri atas agar teks putih tetap terbaca */
+    radial-gradient(ellipse 45% 60% at 30% 0%, rgba(127, 29, 29, 0.55) 0%, rgba(127, 29, 29, 0) 70%),
+    /* dasar: merah tua ke merah merona */
+    linear-gradient(115deg, #991b1b 0%, #dc2626 42%, #ff2a3b 100%);
+}
+
+/* Snap hanya aktif untuk halaman yang memiliki hero katalog, pada desktop. */
+@media (min-width: 1024px) {
+     html:has(#hero-slide) { scroll-snap-type: y mandatory; scroll-padding-top: 4rem; }
+}
+
 /* Category Filter Active Button */
 .category-btn {
     background-color: #f1f5f9;

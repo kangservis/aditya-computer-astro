@@ -4,10 +4,64 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Katalog Produk - Aditya Computer">
-  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-24 md:pb-8 z-10">
+  <section
+    id="hero-slide"
+    class="hero-merona hidden lg:flex flex-col justify-between lg:min-h-[calc(100dvh-4rem)] lg:snap-start px-12 xl:px-20 py-8 text-white"
+  >
+    <div class="max-w-[1600px] w-full mx-auto my-auto grid grid-cols-12 gap-12 xl:gap-20 items-center">
+      <div class="col-span-6 xl:col-span-5 space-y-6">
+        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/25 text-xs font-semibold">
+          ✨ Pusat Komputer &amp; Servis Terpercaya di Kediri
+        </span>
+        <h1 class="font-display font-black lg:text-5xl xl:text-6xl 2xl:text-7xl tracking-tight leading-[1.08]">
+          Solusi Kebutuhan <br />
+          <span class="text-red-100">Teknologi</span> Anda.
+        </h1>
+        <p class="text-base xl:text-lg text-white max-w-xl leading-relaxed">
+          Mitra terpercaya di Wates, Kediri. Menghadirkan laptop baru &amp; second bergaransi resmi, perakitan PC gaming/kantor, serta servis cepat oleh teknisi profesional.
+        </p>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="flex items-center gap-2 bg-black/20 border border-white/25 px-4 py-2.5 rounded-xl text-sm font-medium">
+            <i class="ri-checkbox-circle-fill text-white text-base"></i>
+            Garansi Toko Jelas
+          </span>
+          <span class="flex items-center gap-2 bg-black/20 border border-white/25 px-4 py-2.5 rounded-xl text-sm font-medium">
+            <i class="ri-checkbox-circle-fill text-white text-base"></i>
+            Teknisi Berpengalaman
+          </span>
+          <span class="flex items-center gap-2 bg-black/20 border border-white/25 px-4 py-2.5 rounded-xl text-sm font-medium">
+            <i class="ri-checkbox-circle-fill text-white text-base"></i>
+            Bisa Konsultasi Dulu
+          </span>
+        </div>
+      </div>
+      <div class="col-span-6 xl:col-span-7 flex justify-end items-center">
+        <div class="h-[clamp(18rem,62vh,40rem)] aspect-square rounded-full bg-white p-12 xl:p-16 border-8 border-white/25 flex items-center justify-center overflow-hidden">
+          <img
+            src="/img/Fix.jpg"
+            alt="Logo Aditya Computer Kediri"
+            class="w-full h-full object-contain select-none"
+            decoding="async"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="max-w-[1600px] w-full mx-auto flex justify-center">
+      <a
+        href="#katalog"
+        aria-label="Scroll menuju katalog produk"
+        class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-white text-slate-900 hover:bg-slate-100 transition-colors font-bold text-sm cursor-pointer"
+      >
+        Lihat Katalog Produk
+        <i class="ri-arrow-down-line text-red-600 text-lg"></i>
+      </a>
+    </div>
+  </section>
+  <main id="katalog" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-24 md:pb-8 z-10 lg:snap-start">
     <section class="space-y-4 md:space-y-8">
       <!-- HERO BANNER -->
-      <div class="bento-card accent-gradient text-white p-6 md:p-14 relative overflow-hidden rounded-2xl md:rounded-3xl shadow-md border border-red-500/10">
+      <div class="bento-card accent-gradient text-white p-6 md:p-14 relative overflow-hidden rounded-2xl md:rounded-3xl shadow-md border border-red-500/10 lg:hidden">
         <div class="relative z-10 max-w-xl md:max-w-md lg:max-w-xl space-y-2 md:space-y-4">
           <span class="px-2.5 py-0.5 bg-white/20 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest inline-flex items-center gap-1">
             ✨ IT Support NO.1 di Kediri!
