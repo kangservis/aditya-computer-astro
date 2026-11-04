@@ -14,7 +14,10 @@ import "../styles/globals.css";
     <link rel="apple-touch-icon" href="/img/Fix.jpg" />
 
     <!-- SortableJS untuk fitur Drag & Drop Gambar -->
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"
+      defer
+    ></script>
 
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Outfit:wght@500;700;900&display=swap"
@@ -31,7 +34,7 @@ import "../styles/globals.css";
     <!-- WADAH LOGIN -->
     <div
       id="login-container"
-      class="bento-card w-full max-w-md p-6 md:p-10 space-y-6 bg-white/95 backdrop-blur-sm shadow-xl relative z-10 mx-auto my-auto"
+      class="bento-card w-full max-w-md p-6 md:p-10 space-y-6 bg-white relative z-10 mx-auto my-auto"
     >
       <div class="text-center space-y-2">
         <img
@@ -90,7 +93,7 @@ import "../styles/globals.css";
         <button
           type="submit"
           id="btn-login"
-          class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-colors shadow-md shadow-red-500/20 flex justify-center items-center gap-2 cursor-pointer"
+          class="w-full py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-white text-xs font-bold transition-colors flex justify-center items-center gap-2 cursor-pointer"
         >
           <span>Masuk Dashboard</span>
           <i class="ri-arrow-right-line"></i>
@@ -103,7 +106,7 @@ import "../styles/globals.css";
       id="dashboard-container"
       class="hidden max-w-7xl w-full mx-auto space-y-6 relative z-10 my-auto md:my-8"
     >
-      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/90 backdrop-blur-sm p-4 rounded-2xl border border-slate-200 shadow-sm">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
         <div class="flex items-center gap-3">
           <img
             src="/img/Fix.jpg"
@@ -125,14 +128,14 @@ import "../styles/globals.css";
           <button
             onclick="window.switchAdminTab('produk')"
             id="admin-tab-produk"
-            class="px-4 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition-all cursor-pointer"
+            class="px-4 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition-colors cursor-pointer"
           >
             Produk
           </button>
           <button
             onclick="window.switchAdminTab('artikel')"
             id="admin-tab-artikel"
-            class="px-4 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 transition-all cursor-pointer"
+            class="px-4 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
           >
             Artikel
           </button>
@@ -156,7 +159,7 @@ import "../styles/globals.css";
       </div>
 
       <!-- TAB KONTEN: PRODUK -->
-      <div id="content-produk" class="bento-card overflow-hidden bg-white/95">
+      <div id="content-produk" class="bento-card overflow-hidden">
         <div class="p-4 border-b border-slate-100 bg-white flex justify-end">
           <div class="relative w-full md:w-1/3 shrink-0">
             <i class="ri-search-line absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"></i>
@@ -165,7 +168,7 @@ import "../styles/globals.css";
               id="admin-search-product"
               oninput="window.searchAdminProducts()"
               placeholder="Cari nama, brand, atau kategori..."
-              class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-all"
+              class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none transition-colors"
             />
           </div>
         </div>
@@ -186,17 +189,15 @@ import "../styles/globals.css";
                     ></i>
                   </div>
                 </th>
-                <th
-                  class="px-4 py-3 cursor-pointer hover:bg-slate-100 hover:text-slate-700 transition-colors"
-                  onclick="window.sortProducts('category')"
-                >
-                  <div class="flex items-center gap-1">
-                    Kategori & Brand{" "}
-                    <i
-                      id="sort-icon-category"
-                      class="ri-arrow-up-down-line sort-icon text-slate-400"
-                    ></i>
-                  </div>
+                <th class="px-4 py-3">
+                  <button
+                    id="admin-category-btn"
+                    onclick="window.toggleAdminCategoryMenu(event)"
+                    class="flex items-center gap-1 uppercase text-[10px] font-bold tracking-wider text-slate-500 hover:text-slate-700 cursor-pointer"
+                  >
+                    <span id="admin-category-label">Kategori & Brand</span>
+                    <i class="ri-arrow-down-s-line"></i>
+                  </button>
                 </th>
                 <th
                   class="px-4 py-3 cursor-pointer hover:bg-slate-100 hover:text-slate-700 transition-colors"
@@ -236,7 +237,7 @@ import "../styles/globals.css";
       <!-- TAB KONTEN: ARTIKEL -->
       <div
         id="content-artikel"
-        class="hidden bento-card overflow-hidden bg-white/95"
+        class="hidden bento-card overflow-hidden"
       >
         <div class="overflow-x-auto">
           <table class="w-full min-w-[700px] text-left text-xs whitespace-nowrap">
@@ -260,13 +261,13 @@ import "../styles/globals.css";
     <!-- MODAL FORM PRODUK -->
     <div
       id="product-modal"
-      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
     >
       <div
         onclick="window.closeProductForm()"
         class="absolute inset-0 cursor-pointer"
       ></div>
-      <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-2xl w-full relative z-10 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-2xl w-full relative z-10 space-y-4 max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3
             id="modal-title-produk"
@@ -401,7 +402,7 @@ import "../styles/globals.css";
                   class="hidden"
                   onchange="window.handleProductImageSelect(event)"
                 />
-                <div class="w-8 h-8 rounded-full bg-white shadow-sm border border-slate-100 flex items-center justify-center mb-1 group-hover:scale-110 transition-transform">
+                <div class="w-8 h-8 rounded-full bg-white shadow-sm border border-slate-100 flex items-center justify-center mb-1">
                   <i class="ri-upload-cloud-2-line text-lg text-slate-400 group-hover:text-red-500"></i>
                 </div>
                 <p class="text-xs font-semibold text-slate-600">
@@ -443,13 +444,13 @@ import "../styles/globals.css";
     <!-- MODAL FORM ARTIKEL -->
     <div
       id="article-modal"
-      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
     >
       <div
         onclick="window.closeArticleForm()"
         class="absolute inset-0 cursor-pointer"
       ></div>
-      <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-2xl w-full relative z-10 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+      <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-2xl w-full relative z-10 space-y-4 max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3">
           <h3
             id="modal-title-artikel"
@@ -526,7 +527,7 @@ import "../styles/globals.css";
                   id="preview-art-text"
                   class="text-center z-0 flex flex-col items-center"
                 >
-                  <div class="w-10 h-10 rounded-full bg-white shadow-sm border border-slate-100 flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                  <div class="w-10 h-10 rounded-full bg-white shadow-sm border border-slate-100 flex items-center justify-center mb-2">
                     <i class="ri-image-add-line text-xl text-slate-400 group-hover:text-red-500"></i>
                   </div>
                   <p class="text-xs font-semibold text-slate-600">
@@ -585,9 +586,9 @@ import "../styles/globals.css";
     <!-- CUSTOM CONFIRM MODAL (Hapus) -->
     <div
       id="confirm-modal"
-      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
     >
-      <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-sm w-full relative z-10 space-y-4 shadow-2xl text-center">
+      <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-sm w-full relative z-10 space-y-4 text-center">
         <div class="w-16 h-16 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto text-3xl mb-2">
           <i class="ri-error-warning-fill"></i>
         </div>
@@ -617,9 +618,9 @@ import "../styles/globals.css";
     <!-- CUSTOM LOGOUT MODAL -->
     <div
       id="logout-modal"
-      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs"
+      class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60"
     >
-      <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-sm w-full relative z-10 space-y-4 shadow-2xl text-center">
+      <div class="bg-white rounded-2xl p-5 sm:p-6 max-w-sm w-full relative z-10 space-y-4 text-center">
         <div class="w-16 h-16 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center mx-auto text-3xl mb-2">
           <i class="ri-logout-box-r-line"></i>
         </div>
@@ -644,6 +645,63 @@ import "../styles/globals.css";
           </button>
         </div>
       </div>
+    </div>
+
+    <div
+      id="admin-category-menu"
+      class="hidden fixed z-[60] w-48 bento-card p-2 border border-slate-200"
+    >
+      <ul class="text-[10px] md:text-xs text-slate-700 font-semibold space-y-1">
+        <li
+          data-admin-category="Semua Kategori"
+          onclick="window.selectAdminCategory('Semua Kategori')"
+          class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors text-red-600 bg-red-50"
+        >
+          Semua Kategori
+        </li>
+        <li
+          data-admin-category="Laptop"
+          onclick="window.selectAdminCategory('Laptop')"
+          class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+        >
+          Laptop
+        </li>
+        <li
+          data-admin-category="AIO dan PC"
+          onclick="window.selectAdminCategory('AIO dan PC')"
+          class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+        >
+          AIO dan PC
+        </li>
+        <li
+          data-admin-category="Monitor"
+          onclick="window.selectAdminCategory('Monitor')"
+          class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+        >
+          Monitor
+        </li>
+        <li
+          data-admin-category="Printer & Scanner"
+          onclick="window.selectAdminCategory('Printer & Scanner')"
+          class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+        >
+          Printer & Scanner
+        </li>
+        <li
+          data-admin-category="Networking"
+          onclick="window.selectAdminCategory('Networking')"
+          class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+        >
+          Networking
+        </li>
+        <li
+          data-admin-category="Aksesoris Lainnya"
+          onclick="window.selectAdminCategory('Aksesoris Lainnya')"
+          class="px-3 py-2 rounded-lg hover:bg-red-50 hover:text-red-600 cursor-pointer transition-colors"
+        >
+          Aksesoris Lainnya
+        </li>
+      </ul>
     </div>
 
     <!-- TOAST NOTIFICATION CONTAINER -->
@@ -682,6 +740,69 @@ import "../styles/globals.css";
       let currentAdminTab = "produk";
       let ALL_PRODUCTS = [];
       let ALL_ARTICLES = [];
+      let adminCategoryFilter = "Semua";
+
+      function closeAdminCategoryMenu() {
+        const menu = document.getElementById("admin-category-menu");
+        if (!menu) return;
+        menu.classList.add("hidden");
+      }
+
+      window.toggleAdminCategoryMenu = (event) => {
+        event.stopPropagation();
+        const button = document.getElementById("admin-category-btn");
+        const menu = document.getElementById("admin-category-menu");
+        if (!button || !menu) return;
+        if (menu.classList.contains("hidden")) {
+          const rect = button.getBoundingClientRect();
+          const left = Math.max(
+            8,
+            Math.min(rect.left, window.innerWidth - 192 - 8),
+          );
+          menu.style.top = `${rect.bottom + 6}px`;
+          menu.style.left = `${left}px`;
+          menu.classList.remove("hidden");
+        } else {
+          menu.classList.add("hidden");
+        }
+      };
+
+      window.selectAdminCategory = (value) => {
+        const label = document.getElementById("admin-category-label");
+        const menu = document.getElementById("admin-category-menu");
+        if (!label || !menu) return;
+        adminCategoryFilter = value === "Semua Kategori" ? "Semua" : value;
+        label.innerText =
+          adminCategoryFilter === "Semua"
+            ? "Kategori & Brand"
+            : adminCategoryFilter;
+        label.classList.toggle(
+          "text-red-600",
+          adminCategoryFilter !== "Semua",
+        );
+        menu.querySelectorAll("[data-admin-category]").forEach((item) => {
+          const selected =
+            item.dataset.adminCategory ===
+            (adminCategoryFilter === "Semua"
+              ? "Semua Kategori"
+              : adminCategoryFilter);
+          item.classList.toggle("text-red-600", selected);
+          item.classList.toggle("bg-red-50", selected);
+        });
+        menu.classList.add("hidden");
+        renderTableProduk();
+      };
+
+      document.addEventListener("click", (event) => {
+        const menu = document.getElementById("admin-category-menu");
+        const button = document.getElementById("admin-category-btn");
+        if (!menu || !button) return;
+        if (!menu.contains(event.target) && !button.contains(event.target)) {
+          menu.classList.add("hidden");
+        }
+      });
+      document.addEventListener("scroll", closeAdminCategoryMenu, true);
+      window.addEventListener("resize", closeAdminCategoryMenu);
 
       // Fungsi Notifikasi dikembalikan khusus untuk Admin agar tidak crash
       window.showNotification = (message, type = "success") => {
@@ -694,7 +815,7 @@ import "../styles/globals.css";
           iconClass = "ri-error-warning-fill text-red-500";
           borderClass = "border-red-150";
         }
-        toast.className = `bento-card p-4 flex items-center gap-3 bg-white shadow-xl border pointer-events-auto w-full transition-all duration-300 translate-y-2 opacity-0 ${borderClass}`;
+        toast.className = `bento-card p-4 flex items-center gap-3 bg-white border pointer-events-auto w-full transition-all duration-300 translate-y-2 opacity-0 ${borderClass}`;
         toast.innerHTML = `<i class="${iconClass} text-xl shrink-0"></i><p class="text-xs font-semibold text-slate-800 flex-grow leading-tight">${message}</p><button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-900 text-lg cursor-pointer"><i class="ri-close-line"></i></button>`;
         container.appendChild(toast);
         setTimeout(
@@ -814,11 +935,11 @@ import "../styles/globals.css";
             ? "border-red-400 border-2"
             : "border-slate-200 border";
           thumbsContainer.innerHTML += `
-                        <div data-id="${photo.id}" class="relative h-16 rounded-lg ${borderClass} overflow-hidden bg-slate-50 group cursor-move hover:shadow-md hover:scale-105 transition-all">
+                        <div data-id="${photo.id}" class="relative h-16 rounded-lg ${borderClass} overflow-hidden bg-slate-50 group cursor-move">
                         <img src="${photo.preview}" class="w-full h-full object-contain p-0.5 pointer-events-none">
                         ${labelHtml}
                         <div class="absolute top-1 left-1 bg-black/40 text-white rounded w-4 h-4 flex items-center justify-center text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"><i class="ri-drag-move-fill"></i></div>
-                        <button type="button" onclick="window.removePhoto('${photo.id}')" class="absolute top-1 right-1 bg-red-500/90 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm hover:scale-110 transition-transform cursor-pointer z-10"><i class="ri-close-line"></i></button>
+                        <button type="button" onclick="window.removePhoto('${photo.id}')" class="absolute top-1 right-1 bg-red-500/90 text-white rounded-full w-4 h-4 flex items-center justify-center text-[10px] shadow-sm cursor-pointer z-10"><i class="ri-close-line"></i></button>
                         </div>`;
         });
       }
@@ -841,13 +962,13 @@ import "../styles/globals.css";
       window.switchAdminTab = (tab) => {
         currentAdminTab = tab;
         document.getElementById("admin-tab-produk").className =
-          "px-4 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 transition-all cursor-pointer";
+          "px-4 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors cursor-pointer";
         document.getElementById("admin-tab-artikel").className =
-          "px-4 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 transition-all cursor-pointer";
+          "px-4 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 transition-colors cursor-pointer";
         document.getElementById("content-produk").classList.add("hidden");
         document.getElementById("content-artikel").classList.add("hidden");
         document.getElementById(`admin-tab-${tab}`).className =
-          "px-4 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition-all";
+          "px-4 py-2 rounded-lg text-xs font-bold bg-white text-slate-900 shadow-sm transition-colors";
         document.getElementById(`content-${tab}`).classList.remove("hidden");
         document.getElementById("btn-add-new").innerHTML =
           `<i class="ri-add-line"></i> <span>${tab === "produk" ? "Produk Baru" : "Artikel Baru"}</span>`;
@@ -974,39 +1095,46 @@ import "../styles/globals.css";
         }
       }
 
-      function renderTableProduk(dataToRender = ALL_PRODUCTS) {
+      function renderTableProduk() {
         const tbody = document.getElementById("product-table-body");
-        tbody.innerHTML = "";
+        if (!tbody) return;
+        const dataToRender = getFilteredAdminProducts();
+        if (!dataToRender) return;
+        let rowsHtml = "";
         if (dataToRender.length === 0) {
-          tbody.innerHTML =
+          rowsHtml =
             '<tr><td colspan="5" class="px-4 py-8 text-center text-slate-500">Produk tidak ditemukan.</td></tr>';
-          return;
-        }
-        dataToRender.forEach((prod) => {
-          const proxiedImg = window.getProxyUrl(prod.image);
-          tbody.innerHTML += `
+        } else {
+          dataToRender.forEach((prod) => {
+            const proxiedImg = window.getProxyUrl(prod.image);
+            rowsHtml += `
                         <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="px-4 py-3 flex items-center gap-3"><img src="${proxiedImg}" class="w-10 h-10 object-cover rounded border border-slate-200 bg-white"><div class="max-w-[150px] sm:max-w-xs"><p class="font-bold text-slate-800 truncate">${prod.name}</p><p class="text-[9px] text-slate-400 truncate">${prod.description}</p></div></td>
+                            <td class="px-4 py-3 flex items-center gap-3"><img src="${proxiedImg}" loading="lazy" decoding="async" class="w-10 h-10 object-cover rounded border border-slate-200 bg-white"><div class="max-w-[150px] sm:max-w-xs"><p class="font-bold text-slate-800 truncate">${prod.name}</p><p class="text-[9px] text-slate-400 truncate">${prod.description}</p></div></td>
                             <td class="px-4 py-3"><div class="flex flex-col items-start gap-1"><span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">${prod.category}</span><span class="text-[10px] font-mono text-slate-500 font-medium pl-1">${prod.brand}</span><span class="px-2 py-0.5 ${prod.condition === "Second" ? "bg-orange-100 text-orange-600" : "bg-emerald-100 text-emerald-600"} rounded text-[9px] font-bold">${prod.condition || "Baru"}</span></div></td>
                             <td class="px-4 py-3 font-bold text-red-600">Rp ${parseInt(prod.price).toLocaleString("id-ID")}</td>
                             <td class="px-4 py-3 text-center">${prod.stock > 0 ? `<span class="text-emerald-600 font-bold bg-emerald-50 px-2 py-1 rounded">${prod.stock}</span>` : `<span class="text-red-600 font-bold bg-red-50 px-2 py-1 rounded">Habis</span>`}</td>
                             <td class="px-4 py-3 text-right"><div class="flex items-center justify-end gap-1"><button onclick="window.editProduct('${prod.id}')" class="w-7 h-7 rounded bg-blue-50 text-blue-600 cursor-pointer"><i class="ri-edit-line"></i></button><button onclick="window.deleteData('${prod.id}', 'products')" class="w-7 h-7 rounded bg-red-50 text-red-600 cursor-pointer"><i class="ri-delete-bin-line"></i></button></div></td>
                         </tr>`;
-        });
+          });
+        }
+        tbody.innerHTML = rowsHtml;
       }
 
-      window.searchAdminProducts = () => {
-        const query = document
-          .getElementById("admin-search-product")
-          .value.toLowerCase();
-        const filtered = ALL_PRODUCTS.filter(
+      function getFilteredAdminProducts() {
+        const searchInput = document.getElementById("admin-search-product");
+        if (!searchInput) return;
+        const query = searchInput.value.toLowerCase();
+        return ALL_PRODUCTS.filter(
           (prod) =>
-            (prod.name || "").toLowerCase().includes(query) ||
-            (prod.brand || "").toLowerCase().includes(query) ||
-            (prod.category || "").toLowerCase().includes(query),
+            ((prod.name || "").toLowerCase().includes(query) ||
+              (prod.brand || "").toLowerCase().includes(query) ||
+              (prod.category || "").toLowerCase().includes(query)) &&
+            (adminCategoryFilter === "Semua" ||
+              prod.category === adminCategoryFilter),
         );
-        renderTableProduk(filtered);
-      };
+      }
+
+      window.searchAdminProducts = () => renderTableProduk();
 
       let currentSortColumn = "";
       let isAscending = true;
@@ -1179,22 +1307,24 @@ import "../styles/globals.css";
 
       function renderTableArtikel() {
         const tbody = document.getElementById("article-table-body");
-        tbody.innerHTML = "";
+        if (!tbody) return;
+        let rowsHtml = "";
         if (ALL_ARTICLES.length === 0) {
-          tbody.innerHTML =
+          rowsHtml =
             '<tr><td colspan="4" class="px-4 py-8 text-center text-slate-500">Belum ada artikel.</td></tr>';
-          return;
-        }
-        ALL_ARTICLES.forEach((art) => {
-          const proxiedImg = window.getProxyUrl(art.image);
-          tbody.innerHTML += `
+        } else {
+          ALL_ARTICLES.forEach((art) => {
+            const proxiedImg = window.getProxyUrl(art.image);
+            rowsHtml += `
                         <tr class="hover:bg-slate-50 transition-colors">
-                            <td class="px-4 py-3 flex items-center gap-3"><img src="${proxiedImg}" class="w-10 h-10 object-cover rounded border border-slate-200 bg-white"><div class="max-w-[150px] sm:max-w-xs"><p class="font-bold text-slate-800 truncate">${art.title}</p><p class="text-[9px] text-slate-400 truncate">${art.excerpt}</p></div></td>
+                            <td class="px-4 py-3 flex items-center gap-3"><img src="${proxiedImg}" loading="lazy" decoding="async" class="w-10 h-10 object-cover rounded border border-slate-200 bg-white"><div class="max-w-[150px] sm:max-w-xs"><p class="font-bold text-slate-800 truncate">${art.title}</p><p class="text-[9px] text-slate-400 truncate">${art.excerpt}</p></div></td>
                             <td class="px-4 py-3"><span class="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[10px] font-bold">${art.readTime}</span></td>
                             <td class="px-4 py-3 font-mono text-slate-500 text-[10px]">${art.date}</td>
                             <td class="px-4 py-3 text-right"><div class="flex items-center justify-end gap-1"><button onclick="window.editArticle('${art.id}')" class="w-7 h-7 rounded bg-blue-50 text-blue-600 cursor-pointer"><i class="ri-edit-line"></i></button><button onclick="window.deleteData('${art.id}', 'articles')" class="w-7 h-7 rounded bg-red-50 text-red-600 cursor-pointer"><i class="ri-delete-bin-line"></i></button></div></td>
                         </tr>`;
-        });
+          });
+        }
+        tbody.innerHTML = rowsHtml;
       }
 
       document
