@@ -6,12 +6,13 @@ import Layout from "../layouts/Layout.astro";
 <Layout title="Katalog Produk - Aditya Computer">
   <section
     id="hero-slide"
-    class="hero-merona hidden lg:flex flex-col justify-between lg:min-h-[calc(100dvh-4rem)] lg:snap-start px-12 xl:px-20 py-8 text-white"
+    class="hero-merona hidden lg:flex flex-col justify-between lg:min-h-[calc(100dvh-4rem)] px-12 xl:px-20 py-8 text-white"
   >
     <div class="max-w-[1600px] w-full mx-auto my-auto grid grid-cols-12 gap-12 xl:gap-20 items-center">
       <div class="col-span-6 xl:col-span-5 space-y-6">
         <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/15 border border-white/25 text-xs font-semibold">
-          ✨ Pusat Komputer &amp; Servis Terpercaya di Kediri
+          <span class="w-2 h-2 rounded-full bg-white shrink-0"></span>
+          Pusat Komputer &amp; Servis Terpercaya di Kediri
         </span>
         <h1 class="font-display font-black lg:text-5xl xl:text-6xl 2xl:text-7xl tracking-tight leading-[1.08]">
           Solusi Kebutuhan <br />
@@ -51,14 +52,14 @@ import Layout from "../layouts/Layout.astro";
       <a
         href="#katalog"
         aria-label="Scroll menuju katalog produk"
-        class="inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-white text-slate-900 hover:bg-slate-100 transition-colors font-bold text-sm cursor-pointer"
+        class="group inline-flex items-center justify-center gap-3 h-14 min-w-14 px-0 hover:px-6 focus-visible:px-6 rounded-full bg-white text-slate-900 hover:bg-slate-100 font-bold text-sm transition-colors cursor-pointer"
       >
-        Lihat Katalog Produk
-        <i class="ri-arrow-down-line text-red-600 text-lg"></i>
+        <span class="hidden group-hover:inline group-focus-visible:inline whitespace-nowrap">Lihat Katalog Produk</span>
+        <i class="ri-arrow-down-line text-red-600 text-2xl"></i>
       </a>
     </div>
   </section>
-  <main id="katalog" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-24 md:pb-8 z-10 lg:snap-start">
+  <main id="katalog" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 md:py-8 pb-24 md:pb-8 z-10">
     <section class="space-y-4 md:space-y-8">
       <!-- HERO BANNER -->
       <div class="bento-card accent-gradient text-white p-6 md:p-14 relative overflow-hidden rounded-2xl md:rounded-3xl shadow-md border border-red-500/10 lg:hidden">
@@ -209,6 +210,7 @@ import Layout from "../layouts/Layout.astro";
   // @ts-nocheck
   import { getProxyUrl, formatRupiah } from "../lib/firebase.js";
   import { loadCollection } from "../lib/data.js";
+  import "../lib/hero-scroll.js";
 
   let ALL_PRODUCTS = [];
   window.currentCategory = "Semua";
@@ -230,6 +232,9 @@ import Layout from "../layouts/Layout.astro";
 
     loadCollection("products", (data) => {
       ALL_PRODUCTS = data.slice().sort((a, b) => {
+        const tersediaA = Number(a.stock) > 0;
+        const tersediaB = Number(b.stock) > 0;
+        if (tersediaA !== tersediaB) return tersediaA ? -1 : 1;
         const nameA = (a.name || "").toString().toLowerCase();
         const nameB = (b.name || "").toString().toLowerCase();
         return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;

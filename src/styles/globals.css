@@ -76,11 +76,6 @@ body::before {
     linear-gradient(115deg, #991b1b 0%, #dc2626 42%, #ff2a3b 100%);
 }
 
-/* Snap hanya aktif untuk halaman yang memiliki hero katalog, pada desktop. */
-@media (min-width: 1024px) {
-     html:has(#hero-slide) { scroll-snap-type: y mandatory; scroll-padding-top: 4rem; }
-}
-
 /* Category Filter Active Button */
 .category-btn {
     background-color: #f1f5f9;
