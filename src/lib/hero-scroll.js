@@ -2,40 +2,32 @@ const DURASI = 650;
 const TOLERANSI = 2;
 const KUNCI_TAMBAHAN = 150;
 const JEDA_SETTLE = 200;
+// Ubah ke true bila ingin menghormati pengaturan OS.
+const HORMATI_REDUCED_MOTION = false;
 
 const MEDIA_DESKTOP = "(min-width: 1024px)";
 const MEDIA_REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
-let posisiKatalog = null;
-let scrollMaksimum = 0;
 let sedangAnimasi = false;
 let kunciSampai = 0;
+let waktuMulaiAnimasi = 0;
 let pointerDitekan = false;
 let frameAnimasi = 0;
 let timerSettle;
-let timerResize;
 
-function hitungPosisi() {
-  const hero = document.getElementById("hero-slide");
+function ambilBatas() {
   const katalog = document.getElementById("katalog");
-  if (!hero || !katalog) {
-    posisiKatalog = null;
-    return;
-  }
+  if (!katalog) return null;
 
   const tinggiHeader = document.querySelector("header")?.offsetHeight || 64;
-  scrollMaksimum = Math.max(
+  const maks = Math.max(
     0,
     document.documentElement.scrollHeight - window.innerHeight,
   );
-  posisiKatalog = Math.min(
-    scrollMaksimum,
-    Math.max(
-      0,
-      Math.round(
-        katalog.getBoundingClientRect().top + window.scrollY - tinggiHeader,
-      ),
-    ),
+  const t = Math.round(
+    katalog.getBoundingClientRect().top + window.scrollY - tinggiHeader,
   );
+  const batas = Math.min(maks, Math.max(0, t));
+  return batas > TOLERANSI ? batas : null;
 }
 
 function halamanAktif() {
@@ -60,18 +52,27 @@ function halamanAktif() {
 }
 
 function akhiriAnimasi() {
+  if (frameAnimasi) cancelAnimationFrame(frameAnimasi);
+  frameAnimasi = 0;
   sedangAnimasi = false;
   kunciSampai = performance.now() + KUNCI_TAMBAHAN;
 }
 
-function animasiKe(y) {
-  const tujuan = Math.min(scrollMaksimum, Math.max(0, Math.round(y)));
-  const awal = window.scrollY;
-  const waktuMulai = performance.now();
-  const durasi = window.matchMedia(MEDIA_REDUCED_MOTION).matches
-    ? 0
-    : DURASI;
+function animasiKe(tujuan) {
+  if (Math.abs(tujuan - window.scrollY) < 1) {
+    akhiriAnimasi();
+    return;
+  }
 
+  const awal = window.scrollY;
+  let waktuMulai = null;
+  const durasi =
+    HORMATI_REDUCED_MOTION &&
+    window.matchMedia(MEDIA_REDUCED_MOTION).matches
+      ? 0
+      : DURASI;
+
+  waktuMulaiAnimasi = performance.now();
   sedangAnimasi = true;
   if (frameAnimasi) cancelAnimationFrame(frameAnimasi);
 
@@ -82,6 +83,7 @@ function animasiKe(y) {
   }
 
   function langkah(waktuSekarang) {
+    if (waktuMulai === null) waktuMulai = waktuSekarang;
     const progres = Math.min(1, (waktuSekarang - waktuMulai) / durasi);
     const easing =
       progres < 0.5
@@ -102,12 +104,22 @@ function animasiKe(y) {
 }
 
 function tangani(arah, px) {
-  if (!halamanAktif() || posisiKatalog === null) return false;
+  if (!halamanAktif()) return false;
+  if (window.scrollY > window.innerHeight * 2) return false;
+
+  if (
+    sedangAnimasi &&
+    performance.now() - waktuMulaiAnimasi > DURASI + 500
+  ) {
+    akhiriAnimasi();
+  }
 
   if (sedangAnimasi || performance.now() < kunciSampai) return true;
 
+  const batasKatalog = ambilBatas();
+  if (batasKatalog === null) return false;
+
   const y = window.scrollY;
-  const batasKatalog = posisiKatalog;
   if (arah > 0) {
     if (y < batasKatalog - TOLERANSI) {
       animasiKe(batasKatalog);
@@ -128,22 +140,13 @@ function jadwalkanSettle() {
   clearTimeout(timerSettle);
   timerSettle = setTimeout(() => {
     if (!halamanAktif() || sedangAnimasi || pointerDitekan) return;
+    const batasKatalog = ambilBatas();
+    if (batasKatalog === null) return;
     const y = window.scrollY;
-    if (y > TOLERANSI && y < posisiKatalog - TOLERANSI) {
-      animasiKe(y < posisiKatalog / 2 ? 0 : posisiKatalog);
+    if (y > TOLERANSI && y < batasKatalog - TOLERANSI) {
+      animasiKe(y < batasKatalog / 2 ? 0 : batasKatalog);
     }
   }, JEDA_SETTLE);
-}
-
-function perbaruiPosisi() {
-  hitungPosisi();
-  if (
-    posisiKatalog !== null &&
-    window.scrollY > TOLERANSI &&
-    window.scrollY < posisiKatalog - TOLERANSI
-  ) {
-    jadwalkanSettle();
-  }
 }
 
 function handleWheel(event) {
@@ -190,24 +193,28 @@ function handleClick(event) {
   const target = event.target;
   if (!(target instanceof Element)) return;
   const link = target.closest('a[href="#katalog"]');
-  if (!link || !halamanAktif() || posisiKatalog === null) return;
+  if (!link || !halamanAktif()) return;
+  const batasKatalog = ambilBatas();
+  if (batasKatalog === null) return;
   event.preventDefault();
   if (sedangAnimasi || performance.now() < kunciSampai) return;
-  animasiKe(posisiKatalog);
+  animasiKe(batasKatalog);
 }
 
 function handleScroll() {
+  if (sedangAnimasi) return;
+
+  const y = window.scrollY;
   if (
-    !sedangAnimasi &&
-    halamanAktif() &&
-    posisiKatalog !== null &&
-    window.scrollY > TOLERANSI &&
-    window.scrollY < posisiKatalog - TOLERANSI
+    y <= TOLERANSI ||
+    y > window.innerHeight * 2 ||
+    !halamanAktif()
   ) {
-    jadwalkanSettle();
-  } else {
     clearTimeout(timerSettle);
+    return;
   }
+
+  jadwalkanSettle();
 }
 
 window.addEventListener("wheel", handleWheel, { passive: false });
@@ -224,11 +231,5 @@ window.addEventListener("pointercancel", () => {
   pointerDitekan = false;
   jadwalkanSettle();
 });
-window.addEventListener("resize", () => {
-  clearTimeout(timerResize);
-  timerResize = setTimeout(perbaruiPosisi, 100);
-});
+window.addEventListener("resize", jadwalkanSettle);
 document.addEventListener("click", handleClick);
-document.addEventListener("astro:page-load", perbaruiPosisi);
-
-perbaruiPosisi();
