@@ -8,7 +8,7 @@ const HORMATI_REDUCED_MOTION = false;
 // "js" = animasi buatan sendiri yang sama di semua browser;
 // "native" = scrollTo smooth bawaan browser, hampir tanpa kerja per frame,
 // tetapi di Firefox dapat mengikuti pengaturan smooth scroll browser.
-const MODE_ANIMASI = "js";
+const MODE_ANIMASI = "native";
 
 const MEDIA_DESKTOP = "(min-width: 1024px)";
 const MEDIA_REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
