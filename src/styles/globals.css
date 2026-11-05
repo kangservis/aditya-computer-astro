@@ -9,6 +9,11 @@ body {
     min-height: 100dvh; /* Menggunakan Dynamic Viewport Height agar layout stabil saat toolbar HP menyusut */
 }
 
+/* Matikan hover dan hit-testing selama scroll terprogram. */
+html.sedang-gulir body {
+    pointer-events: none;
+}
+
 /* WATERMARK LOGO LATAR BELAKANG (Optimasi Akselerasi GPU 60fps) */
 body::before {
     content: "";

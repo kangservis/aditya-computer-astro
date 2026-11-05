@@ -1,18 +1,31 @@
-const DURASI = 650;
+const DURASI = 550;
 const TOLERANSI = 2;
 const KUNCI_TAMBAHAN = 150;
 const JEDA_SETTLE = 200;
+const JEDA_FRAME = 33;
 // Ubah ke true bila ingin menghormati pengaturan OS.
 const HORMATI_REDUCED_MOTION = false;
+// "js" = animasi buatan sendiri yang sama di semua browser;
+// "native" = scrollTo smooth bawaan browser, hampir tanpa kerja per frame,
+// tetapi di Firefox dapat mengikuti pengaturan smooth scroll browser.
+const MODE_ANIMASI = "js";
 
 const MEDIA_DESKTOP = "(min-width: 1024px)";
 const MEDIA_REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+const mqDesktop = window.matchMedia(MEDIA_DESKTOP);
+const mqReduced = window.matchMedia(MEDIA_REDUCED_MOTION);
 let sedangAnimasi = false;
 let kunciSampai = 0;
 let waktuMulaiAnimasi = 0;
+let tujuanAnimasiAktif = 0;
 let pointerDitekan = false;
 let frameAnimasi = 0;
 let timerSettle;
+let timerNativeFallback;
+
+function selesaiAnimasiNative() {
+  akhiriAnimasi();
+}
 
 function ambilBatas() {
   const katalog = document.getElementById("katalog");
@@ -32,7 +45,7 @@ function ambilBatas() {
 
 function halamanAktif() {
   if (
-    !window.matchMedia(MEDIA_DESKTOP).matches ||
+    !mqDesktop.matches ||
     !document.getElementById("hero-slide") ||
     document.body.style.overflow === "hidden"
   ) {
@@ -54,27 +67,44 @@ function halamanAktif() {
 function akhiriAnimasi() {
   if (frameAnimasi) cancelAnimationFrame(frameAnimasi);
   frameAnimasi = 0;
+  clearTimeout(timerNativeFallback);
+  window.removeEventListener("scrollend", selesaiAnimasiNative);
   sedangAnimasi = false;
+  document.documentElement.classList.remove("sedang-gulir");
   kunciSampai = performance.now() + KUNCI_TAMBAHAN;
 }
 
 function animasiKe(tujuan) {
+  document.documentElement.classList.add("sedang-gulir");
+  tujuanAnimasiAktif = tujuan;
+  waktuMulaiAnimasi = performance.now();
+  sedangAnimasi = true;
+
   if (Math.abs(tujuan - window.scrollY) < 1) {
     akhiriAnimasi();
     return;
   }
 
+  if (frameAnimasi) cancelAnimationFrame(frameAnimasi);
+  clearTimeout(timerNativeFallback);
+  window.removeEventListener("scrollend", selesaiAnimasiNative);
+
+  if (MODE_ANIMASI === "native") {
+    window.addEventListener("scrollend", selesaiAnimasiNative, { once: true });
+    timerNativeFallback = setTimeout(akhiriAnimasi, 1200);
+    window.scrollTo({ top: tujuan, left: 0, behavior: "smooth" });
+    return;
+  }
+
   const awal = window.scrollY;
   let waktuMulai = null;
+  let waktuUpdateTerakhir = 0;
+  let posisiTerakhirDitulis = Math.round(awal);
   const durasi =
     HORMATI_REDUCED_MOTION &&
-    window.matchMedia(MEDIA_REDUCED_MOTION).matches
+    mqReduced.matches
       ? 0
       : DURASI;
-
-  waktuMulaiAnimasi = performance.now();
-  sedangAnimasi = true;
-  if (frameAnimasi) cancelAnimationFrame(frameAnimasi);
 
   if (durasi === 0) {
     window.scrollTo({ top: tujuan, left: 0, behavior: "instant" });
@@ -90,7 +120,20 @@ function animasiKe(tujuan) {
         ? 4 * progres * progres * progres
         : 1 - Math.pow(-2 * progres + 2, 3) / 2;
     const posisi = awal + (tujuan - awal) * easing;
-    window.scrollTo({ top: posisi, left: 0, behavior: "instant" });
+    const posisiBulat = Math.round(posisi);
+    if (
+      (waktuSekarang - waktuUpdateTerakhir >= JEDA_FRAME || progres === 1) &&
+      (posisiBulat !== posisiTerakhirDitulis || progres === 1)
+    ) {
+      const posisiTulis = progres === 1 ? tujuan : posisi;
+      window.scrollTo({
+        top: posisiTulis,
+        left: 0,
+        behavior: "instant",
+      });
+      waktuUpdateTerakhir = waktuSekarang;
+      posisiTerakhirDitulis = Math.round(posisiTulis);
+    }
 
     if (progres < 1) {
       frameAnimasi = requestAnimationFrame(langkah);
@@ -190,6 +233,15 @@ function handleKeydown(event) {
 }
 
 function handleClick(event) {
+  if (
+    event.button !== 0 ||
+    event.ctrlKey ||
+    event.metaKey ||
+    event.shiftKey ||
+    event.altKey
+  ) {
+    return;
+  }
   const target = event.target;
   if (!(target instanceof Element)) return;
   const link = target.closest('a[href="#katalog"]');
@@ -197,8 +249,19 @@ function handleClick(event) {
   const batasKatalog = ambilBatas();
   if (batasKatalog === null) return;
   event.preventDefault();
+  event.stopPropagation();
   if (sedangAnimasi || performance.now() < kunciSampai) return;
   animasiKe(batasKatalog);
+}
+
+function handleVisibilityChange() {
+  if (!document.hidden || !sedangAnimasi) return;
+  window.scrollTo({
+    top: tujuanAnimasiAktif,
+    left: 0,
+    behavior: "instant",
+  });
+  akhiriAnimasi();
 }
 
 function handleScroll() {
@@ -232,4 +295,5 @@ window.addEventListener("pointercancel", () => {
   jadwalkanSettle();
 });
 window.addEventListener("resize", jadwalkanSettle);
-document.addEventListener("click", handleClick);
+document.addEventListener("visibilitychange", handleVisibilityChange);
+document.addEventListener("click", handleClick, true);

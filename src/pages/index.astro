@@ -264,17 +264,19 @@ import Layout from "../layouts/Layout.astro";
     }
 
     let htmlBuffer = "";
-    data.forEach((prod) => {
+    data.forEach((prod, indeks) => {
       const imagesArray =
         prod.images && prod.images.length > 0 ? prod.images : [prod.image];
 
       // Hanya ambil gambar pertama untuk katalog
       const firstImg = getProxyUrl(imagesArray[0], 400);
+      // 9 kartu pertama (sekitar 3 baris) dimuat langsung karena di desktop katalog berada di slide kedua dan langsung terlihat setelah satu kali scroll.
+      const loadingImage = indeks < 9 ? "eager" : "lazy";
 
       const sliderHtml = `
          <div class="w-full h-full flex items-center justify-center p-3 relative">
            <img src="${firstImg}" alt="${prod.name}"
-                loading="lazy" decoding="async"
+                loading="${loadingImage}" decoding="async"
                 class="max-h-full max-w-full object-contain" >
          </div>`;
 
