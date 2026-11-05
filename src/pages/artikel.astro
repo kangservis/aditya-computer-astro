@@ -171,11 +171,17 @@ import Layout from "../layouts/Layout.astro";
         .getElementById("article-detail-modal")
         .classList.remove("hidden");
       document.body.style.overflow = "hidden";
+      window.overlayRiwayat?.buka("artikel", tutupArtikelLangsung);
+    }
+
+    function tutupArtikelLangsung() {
+      document.getElementById("article-detail-modal").classList.add("hidden");
+      document.body.style.overflow = "";
     }
 
     function closeArticleDetail() {
-      document.getElementById("article-detail-modal").classList.add("hidden");
-      document.body.style.overflow = "";
+      if (window.overlayRiwayat) window.overlayRiwayat.tutup("artikel");
+      else tutupArtikelLangsung();
     }
 
     function setupArticleModals() {

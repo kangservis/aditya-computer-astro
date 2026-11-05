@@ -48,9 +48,21 @@ window.showNotification = (message, type = "success") => {
 };
 
 // --- 3. FITUR KERANJANG BELANJA ---
+function tutupKeranjangLangsung() {
+  document.getElementById("cart-drawer")?.classList.add("hidden");
+}
+
 window.toggleCart = (isOpen) => {
-  document.getElementById("cart-drawer")?.classList.toggle("hidden", !isOpen);
-  if (isOpen) window.renderCart();
+  if (isOpen) {
+    const drawer = document.getElementById("cart-drawer");
+    if (!drawer) return;
+    drawer.classList.remove("hidden");
+    window.renderCart();
+    window.overlayRiwayat?.buka("keranjang", tutupKeranjangLangsung);
+    return;
+  }
+  if (window.overlayRiwayat) window.overlayRiwayat.tutup("keranjang");
+  else tutupKeranjangLangsung();
 };
 
 window.addToCart = (prodId) => {
@@ -164,8 +176,20 @@ window.renderCart = () => {
 };
 
 // --- 4. CHECKOUT WA ---
+function tutupCheckoutLangsung() {
+  document.getElementById("checkout-modal")?.classList.add("hidden");
+}
+
 window.toggleCheckoutModal = (isOpen) => {
-  document.getElementById("checkout-modal")?.classList.toggle("hidden", !isOpen);
+  if (isOpen) {
+    const modal = document.getElementById("checkout-modal");
+    if (!modal) return;
+    modal.classList.remove("hidden");
+    window.overlayRiwayat?.buka("checkout", tutupCheckoutLangsung);
+    return;
+  }
+  if (window.overlayRiwayat) window.overlayRiwayat.tutup("checkout");
+  else tutupCheckoutLangsung();
 };
 
 window.openCheckout = () => {
@@ -293,11 +317,17 @@ window.openProductDetail = (prodId) => {
 
   document.getElementById("product-detail-modal").classList.remove("hidden");
   document.body.style.overflow = "hidden";
+  window.overlayRiwayat?.buka("detail", tutupDetailLangsung);
 };
 
-window.closeProductDetail = () => {
+function tutupDetailLangsung() {
   document.getElementById("product-detail-modal")?.classList.add("hidden");
   document.body.style.overflow = "";
+}
+
+window.closeProductDetail = () => {
+  if (window.overlayRiwayat) window.overlayRiwayat.tutup("detail");
+  else tutupDetailLangsung();
 };
 
 window.scrollSlider = (event, prodId, direction) => {
@@ -362,12 +392,20 @@ window.openLightbox = (prodId, startIndex = 0) => {
 
   document.getElementById("image-lightbox").classList.remove("hidden");
   document.body.style.overflow = "hidden";
+  window.overlayRiwayat?.buka("lightbox", tutupLightboxLangsung);
 };
 
-window.closeLightbox = () => {
+function tutupLightboxLangsung() {
   document.getElementById("image-lightbox")?.classList.add("hidden");
   document.getElementById("lightbox-slider-container").innerHTML = "";
-  document.body.style.overflow = "";
+  const detailModal = document.getElementById("product-detail-modal");
+  document.body.style.overflow =
+    detailModal && !detailModal.classList.contains("hidden") ? "hidden" : "";
+}
+
+window.closeLightbox = () => {
+  if (window.overlayRiwayat) window.overlayRiwayat.tutup("lightbox");
+  else tutupLightboxLangsung();
 };
 
 window.updateCartCounter = () => {

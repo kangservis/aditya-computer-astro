@@ -63,6 +63,49 @@ const {
       rel="stylesheet"
     />
 
+    <script is:inline>
+      // Riwayat overlay: gestur "kembali" di HP menutup overlay teratas, bukan keluar halaman.
+      // Harus terpasang SEBELUM <ClientRouter /> agar popstate overlay ditangani lebih dulu.
+      (function () {
+        if (window.overlayRiwayat) return;
+        var tumpukan = []; // overlay yang sedang terbuka: { nama, tutup }
+        var kedalaman = 0; // jumlah entri riwayat milik overlay
+        // Entri overlay basi (mis. setelah muat ulang): bersihkan penandanya
+        if (history.state && history.state.overlayDepth) {
+          history.replaceState(Object.assign({}, history.state, { overlayDepth: 0 }), "");
+        }
+        window.overlayRiwayat = {
+          buka: function (nama, tutup) {
+            for (var i = 0; i < tumpukan.length; i++) if (tumpukan[i].nama === nama) return;
+            tumpukan.push({ nama: nama, tutup: tutup });
+            kedalaman++;
+            history.pushState(Object.assign({}, history.state, { overlayDepth: kedalaman }), "");
+          },
+          tutup: function (nama) {
+            var idx = -1;
+            for (var i = 0; i < tumpukan.length; i++) if (tumpukan[i].nama === nama) idx = i;
+            if (idx < 0) return;
+            var adalahPuncak = idx === tumpukan.length - 1;
+            var item = tumpukan.splice(idx, 1)[0];
+            item.tutup();
+            if (adalahPuncak) history.back();
+          },
+        };
+        window.addEventListener("popstate", function (e) {
+          var baru = (e.state && e.state.overlayDepth) || 0;
+          if (baru >= kedalaman) return; // bukan urusan overlay: biarkan router Astro
+          e.stopImmediatePropagation();
+          kedalaman = baru;
+          while (tumpukan.length > baru) tumpukan.pop().tutup();
+        });
+        // Setelah pindah halaman, DOM modal baru: kosongkan catatan
+        document.addEventListener("astro:after-swap", function () {
+          tumpukan.length = 0;
+          kedalaman = 0;
+        });
+      })();
+    </script>
+
     <ClientRouter fallback="swap" />
   </head>
   <body class="font-sans bg-slate-50 text-slate-900 min-h-screen flex flex-col relative select-none md:select-text">
