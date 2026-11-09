@@ -1,10 +1,5 @@
 // File: src/lib/data.js
-// Cache data Firestore (produk & artikel) dengan masa berlaku.
-import { db } from "./firebase.js";
-import {
-  collection,
-  getDocs,
-} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+// Cache data Firestore (produk & artikel) dengan masa berlaku; pembacaan memakai REST tanpa SDK.
 
 const PREFIX = "aditya_cache_";
 const MAKS_USANG = 24 * 60 * 60 * 1000; // lewat 24 jam: jangan tampilkan, tunggu data baru
@@ -44,15 +39,91 @@ export function hapusCache(nama) {
   } catch {}
 }
 
+function ubahNilai(nilai) {
+  if (Object.hasOwn(nilai, "stringValue")) return nilai.stringValue;
+  if (Object.hasOwn(nilai, "integerValue")) return Number(nilai.integerValue);
+  if (Object.hasOwn(nilai, "doubleValue")) return nilai.doubleValue;
+  if (Object.hasOwn(nilai, "booleanValue")) return nilai.booleanValue;
+  if (Object.hasOwn(nilai, "nullValue")) return null;
+  if (Object.hasOwn(nilai, "timestampValue")) return nilai.timestampValue;
+  if (Object.hasOwn(nilai, "referenceValue")) return nilai.referenceValue;
+  if (Object.hasOwn(nilai, "bytesValue")) return nilai.bytesValue;
+  if (Object.hasOwn(nilai, "geoPointValue")) return nilai.geoPointValue;
+  if (Object.hasOwn(nilai, "arrayValue")) {
+    return (nilai.arrayValue.values || []).map(ubahNilai);
+  }
+  if (Object.hasOwn(nilai, "mapValue")) {
+    return Object.fromEntries(
+      Object.entries(nilai.mapValue.fields || {}).map(([nama, nilaiField]) => [
+        nama,
+        ubahNilai(nilaiField),
+      ]),
+    );
+  }
+  return null;
+}
+
 function ambilDariFirestore(nama) {
   if (!sedangAmbil[nama]) {
-    sedangAmbil[nama] = getDocs(collection(db, nama))
-      .then((snap) => {
-        const data = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    const projectId = import.meta.env.PUBLIC_FIREBASE_PROJECT_ID;
+    const apiKey = import.meta.env.PUBLIC_FIREBASE_API_KEY;
+    if (!projectId || !apiKey) {
+      throw new Error(
+        "Konfigurasi Firebase REST tidak lengkap: project ID atau API key belum diatur.",
+      );
+    }
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
+    const ambilHalaman = async () => {
+      const dokumen = [];
+      let token = "";
+      let halaman = 0;
+
+      do {
+        const pageQuery = token
+          ? `&pageToken=${encodeURIComponent(token)}`
+          : "";
+        const url =
+          `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${nama}` +
+          `?pageSize=300&key=${encodeURIComponent(apiKey)}${pageQuery}`;
+        const response = await fetch(url, { signal: controller.signal });
+        if (!response.ok) {
+          throw new Error(
+            `Gagal mengambil koleksi ${nama}: HTTP ${response.status}.`,
+          );
+        }
+
+        const json = await response.json();
+        (json.documents || []).forEach((document) => {
+          const id = document.name.split("/").pop();
+          const fields = Object.fromEntries(
+            Object.entries(document.fields || {}).map(([fieldName, value]) => [
+              fieldName,
+              ubahNilai(value),
+            ]),
+          );
+          dokumen.push({ id, ...fields });
+        });
+        token = json.nextPageToken || "";
+        halaman += 1;
+        if (token && halaman >= 10) {
+          throw new Error(
+            `Koleksi ${nama} melebihi batas pengambilan 10 halaman.`,
+          );
+        }
+      } while (token);
+
+      return dokumen;
+    };
+
+    sedangAmbil[nama] = ambilHalaman()
+      .then((data) => {
         tulisCache(nama, data);
         return data;
       })
       .finally(() => {
+        clearTimeout(timeout);
         delete sedangAmbil[nama];
       });
   }

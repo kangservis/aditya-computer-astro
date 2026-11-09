@@ -1,5 +1,5 @@
 // File: src/lib/store.js
-import { getProxyUrl } from "./firebase.js";
+import { getProxyUrl } from "./util.js";
 
 // --- 1. INISIALISASI KERANJANG DARI PENYIMPANAN BROWSER ---
 // Mengambil data lama jika ada, atau buat array kosong jika baru
