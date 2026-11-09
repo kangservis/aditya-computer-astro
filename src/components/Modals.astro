@@ -21,6 +21,7 @@
       </span>
       <button
         onclick="window.toggleCart(false)"
+        aria-label="Tutup keranjang"
         class="text-slate-400 hover:text-slate-900 text-xl cursor-pointer"
       >
         <i class="ri-close-line"></i>
@@ -120,6 +121,7 @@
       </span>
       <button
         onclick="window.closeProductDetail()"
+        aria-label="Tutup detail produk"
         class="text-slate-400 hover:text-slate-900 text-xl xl:text-3xl cursor-pointer"
       >
         <i class="ri-close-line"></i>
@@ -187,6 +189,7 @@
 >
   <button
     onclick="window.closeLightbox()"
+    aria-label="Tutup foto"
     class="absolute top-4 right-4 z-50 text-white hover:text-red-500 text-3xl cursor-pointer"
   >
     <i class="ri-close-line"></i>
@@ -198,12 +201,14 @@
   >
     <button
       onclick="window.scrollSlider(event, 'lightbox', -1)"
+      aria-label="Foto sebelumnya"
       class="pointer-events-auto w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/20 text-white rounded-full hidden md:flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100"
     >
       <i class="ri-arrow-left-s-line text-2xl md:text-3xl"></i>
     </button>
     <button
       onclick="window.scrollSlider(event, 'lightbox', 1)"
+      aria-label="Foto berikutnya"
       class="pointer-events-auto w-10 h-10 md:w-12 md:h-12 bg-white/10 hover:bg-white/20 text-white rounded-full hidden md:flex items-center justify-center cursor-pointer opacity-0 group-hover:opacity-100"
     >
       <i class="ri-arrow-right-s-line text-2xl md:text-3xl"></i>

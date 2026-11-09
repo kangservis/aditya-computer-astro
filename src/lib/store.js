@@ -36,7 +36,7 @@ window.showNotification = (message, type = "success") => {
   toast.className = `bento-card p-4 flex items-center gap-3 bg-white shadow-xl border pointer-events-auto w-full transition-colors duration-300 translate-y-2 opacity-0 ${borderClass}`;
   toast.innerHTML = `<i class="${iconClass} text-xl shrink-0"></i>
     <p class="text-xs font-semibold text-slate-800 flex-grow leading-tight">${message}</p>
-    <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-slate-900 text-lg cursor-pointer"><i class="ri-close-line"></i></button>`;
+    <button onclick="this.parentElement.remove()" aria-label="Tutup notifikasi" class="text-slate-400 hover:text-slate-900 text-lg cursor-pointer"><i class="ri-close-line"></i></button>`;
 
   container.appendChild(toast);
 
@@ -246,8 +246,8 @@ window.openProductDetail = (prodId) => {
   let navHtml = '';
   if (imagesArray.length > 1) {
      navHtml = `
-        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', -1)" class="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 xl:w-10 xl:h-10 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-colors duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-left-s-line"></i></button>
-        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', 1)" class="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 xl:w-10 xl:h-10 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-colors duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-right-s-line"></i></button>
+        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', -1)" aria-label="Foto sebelumnya" class="absolute left-1 top-1/2 -translate-y-1/2 w-7 h-7 xl:w-10 xl:h-10 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-colors duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-left-s-line"></i></button>
+        <button onclick="window.scrollSlider(event, 'detail-${prod.id}', 1)" aria-label="Foto berikutnya" class="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 xl:w-10 xl:h-10 bg-white/90 hover:bg-white rounded-full hidden sm:flex items-center justify-center shadow-sm text-slate-600 hover:text-red-600 transition-colors duration-300 z-20 cursor-pointer opacity-0 group-hover:opacity-100"><i class="ri-arrow-right-s-line"></i></button>
         <div class="absolute bottom-1 right-1 bg-black/40 text-white text-[9px] xl:text-xs font-bold px-1.5 py-0.5 rounded z-20 pointer-events-none flex items-center gap-1"><i class="ri-image-2-line"></i> ${imagesArray.length}</div>
      `;
   }
@@ -278,7 +278,7 @@ window.openProductDetail = (prodId) => {
   document.getElementById("detail-category").innerText = prod.category;
   
   const condition = prod.condition || "Baru";
-  document.getElementById("detail-brand").innerHTML = `${prod.brand} <span class="mx-1 text-slate-300">•</span> <span class="${condition === "Second" ? "text-orange-500" : "text-emerald-500"}">${condition}</span>`;
+  document.getElementById("detail-brand").innerHTML = `${prod.brand} <span class="mx-1 text-slate-300">•</span> <span class="${condition === "Second" ? "text-orange-700" : "text-emerald-500"}">${condition}</span>`;
   document.getElementById("detail-title").innerText = prod.name;
   document.getElementById("detail-price").innerText = formatRupiah(prod.price);
   document.getElementById("detail-description").innerText = prod.description;
